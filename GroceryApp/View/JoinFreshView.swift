@@ -46,7 +46,7 @@ struct JoinFreshView: View {
                         .shadow(radius: 5)
                 }
                 Button {
-                    // TODO: navigate to login page
+                    coordinator.navigate(to: Destination.loginPage)
                 }
                 label: {
                     Text("Login")

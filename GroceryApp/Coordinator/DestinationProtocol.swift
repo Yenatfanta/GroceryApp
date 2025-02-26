@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 protocol DestinationProtocol: Hashable {
-    func makeView() ->  AnyView
+    func makeView() -> AnyView
 }
 struct Destination: DestinationProtocol {
     private let id: String
@@ -25,7 +25,10 @@ struct Destination: DestinationProtocol {
     static let createAccount = Destination(id: "create") {
         AnyView(CreateAccountView())
     }
-    static func ==(lhs: Destination, rhs: Destination) -> Bool {
+    static let loginPage = Destination(id: "login") {
+        AnyView(LoginView())
+    }
+    static func == (lhs: Destination, rhs: Destination) -> Bool {
         return lhs.id == rhs.id
     }
     func hash(into hasher: inout Hasher) {

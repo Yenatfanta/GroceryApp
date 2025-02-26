@@ -48,6 +48,5 @@ struct CustomSecureField: View {
         }
         .padding()
         .cornerRadius(5)
-        
     }
 }

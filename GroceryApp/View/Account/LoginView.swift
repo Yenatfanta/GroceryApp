@@ -49,7 +49,7 @@ struct LoginView: View {
     }
     private var signInButton: some View {
         Button {
-            
+            // TODO: login
         } label: {
             Text("SIGN IN")
                 .fontWeight(.semibold)
@@ -72,7 +72,7 @@ struct LoginView: View {
                 isSecured: $isSecure
             )
             Button {
-             
+             // TODO: forgot password
             } label: {
                Text("Forgot Password?")
                     .font(.footnote)

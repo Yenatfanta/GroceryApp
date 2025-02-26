@@ -6,13 +6,18 @@
 //
 
 import SwiftUI
+import Combine
 struct CreateAccountView: View {
-    @State var firstName = ""
-    @State var lastName = ""
-    @State var email = ""
-    @State var password = ""
+    @State private var firstName = ""
+    @State private var lastName = ""
+    @State private var email = ""
+    @State private var password = ""
+    @State private var userCreatedSuccessfully = false
+    @State private var errorMessage: String?
+    @State private var user: User?
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var coordinator: Coordinator
+    @StateObject var viewModel = CreateAccountViewModel()
     var body: some View {
         VStack {
             ZStack {
@@ -36,13 +41,25 @@ struct CreateAccountView: View {
                     .textFieldStyle(CustomTextFieldStyle())
                 SecureField("Password", text: $password)
                     .textFieldStyle(CustomTextFieldStyle())
+                if let error = errorMessage {
+                    Text(error)
+                        .foregroundStyle(.red)
+                        .font(.caption)
+                        .padding(.top)
+                }
                 Text("By tapping the create account you agree to terms and conditions")
                     .foregroundStyle(.gray)
                     .font(.body)
                     .multilineTextAlignment(.center)
                 Spacer()
                 Button {
-                    // coordinator.navigate(to: Destination.joinPage)
+                    viewModel
+                        .createAccount(
+                            email: email,
+                            password: password,
+                            firstName: firstName,
+                            lastName: lastName
+                        )
                 } label: {
                     Text("CREATE AN ACCOUNT")
                         .fontWeight(.semibold)
@@ -59,6 +76,24 @@ struct CreateAccountView: View {
             .background(Color.white)
             .cornerRadius(25, corners: [.topLeft, .topRight])
         }
+        .onReceive(viewModel.$authState) { newState in
+            switch newState {
+            case .authenticated(let userCreated):
+                userCreatedSuccessfully = true
+                user = userCreated
+            case .error(let error):
+                errorMessage = error
+            default:
+                print("sorry user couldn't be created")
+            }
+        }
+        .overlay(
+            userCreatedSuccessfully ?
+            UserCreatedView(userCreatedSuccessfully: $userCreatedSuccessfully, user: $user)
+                          .transition(.opacity.combined(with: .scale))
+                          .animation(.spring(), value: userCreatedSuccessfully)
+            : nil
+        )
     }
 }
 struct CornerRadiusShape: Shape {
