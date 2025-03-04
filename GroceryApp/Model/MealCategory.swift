@@ -6,7 +6,7 @@
 //
 
 import Foundation
-struct Category: Codable, Identifiable {
+struct MealCategory: Codable, Identifiable {
     let id: String
     let name: String
     let thumbnail: String?
@@ -19,5 +19,5 @@ struct Category: Codable, Identifiable {
     }
 }
 struct CategoryResponse: Codable {
-    let categories: [Category]
+    let categories: [MealCategory]
 }

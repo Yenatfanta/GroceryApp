@@ -9,8 +9,12 @@ import SwiftUI
 import Kingfisher
 struct CategoryDetailView: View {
     @EnvironmentObject var coordinator: Coordinator
-    @StateObject var viewModel = CategoryDetailViewModel()
     @State var selectedMeal: String
+    @StateObject var viewModel: CategoryDetailViewModel
+    init(selectedMeal: String) {
+        self.selectedMeal = selectedMeal
+        _viewModel = StateObject(wrappedValue: CategoryDetailViewModel(mealName: selectedMeal))
+    }
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
     var body: some View {
         ScrollView {
@@ -42,6 +46,10 @@ struct CategoryDetailView: View {
                                 .cornerRadius(8)
                                 .padding(8)
                         }
+                        .onTapGesture {
+                            coordinator
+                                .navigate(to: Destination.recipeDetailView(meal.id))
+                        }
                         .contentShape(Rectangle())
                     }
                 default:
@@ -52,7 +60,7 @@ struct CategoryDetailView: View {
             .navigationTitle("Meals")
         }
         .task {
-            await viewModel.loadDetail(selectedMeal)
+            await viewModel.fetchData()
         }
     }
 }

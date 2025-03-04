@@ -20,7 +20,6 @@ struct TabViewNavigator: View {
                     Label("profile", systemImage: "person.fill")
                 }
             CategoryView()
-                .environmentObject(CategoryViewModel())
                 .tabItem {
                     Label("category", systemImage: "arrow.right.arrow.left")
                 }

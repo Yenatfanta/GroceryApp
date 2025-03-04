@@ -60,5 +60,10 @@ struct UserCreatedView: View {
             )
             .padding(.horizontal, 40)
         }
+        .overlay {
+            if userCreatedSuccessfully {
+                ConfettiViewWrapper()
+            }
+        }
     }
 }

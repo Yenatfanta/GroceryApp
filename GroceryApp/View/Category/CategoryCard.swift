@@ -8,9 +8,8 @@
 import SwiftUI
 import Kingfisher
 struct CategoryCard: View {
-    let category: Category
+    let category: MealCategory
     @EnvironmentObject var coordinator: Coordinator
-    @EnvironmentObject var viewModel: CategoryViewModel
     var body: some View {
         ZStack(alignment: .bottom) {
             KFImage(URL(string: category.thumbnail ?? ""))

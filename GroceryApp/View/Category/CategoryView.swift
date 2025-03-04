@@ -7,7 +7,7 @@
 
 import SwiftUI
 struct CategoryView: View {
-    @EnvironmentObject var viewModel: CategoryViewModel
+    @StateObject var viewModel = CategoryViewModel()
     @EnvironmentObject var coordinator: Coordinator
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
     var body: some View {
@@ -26,7 +26,7 @@ struct CategoryView: View {
             .padding(.horizontal)
         }
         .task {
-            await viewModel.loadCategories()
+            await viewModel.fetchData()
         }
     }
 }
