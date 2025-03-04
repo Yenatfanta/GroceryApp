@@ -12,7 +12,8 @@ struct GroceryAppApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
-            SplashScreenView()
+                WelcomeView()
+                .environmentObject(Coordinator())
         }
     }
 }

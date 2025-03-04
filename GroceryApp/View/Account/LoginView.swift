@@ -11,6 +11,7 @@ struct LoginView: View {
     @State var email = ""
     @State var password = ""
     @State var isSecure = true
+    @EnvironmentObject var coordinator: Coordinator
     var body: some View {
         ZStack {
             backgroundLayer
@@ -50,6 +51,7 @@ struct LoginView: View {
     private var signInButton: some View {
         Button {
             // TODO: login
+            coordinator.navigate(to: Destination.productTab)
         } label: {
             Text("SIGN IN")
                 .fontWeight(.semibold)
@@ -85,4 +87,5 @@ struct LoginView: View {
 
 #Preview {
     LoginView()
+        
 }

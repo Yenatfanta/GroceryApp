@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 struct CustomTextField: View {
     let placeHolder: String
     @Binding var text: String

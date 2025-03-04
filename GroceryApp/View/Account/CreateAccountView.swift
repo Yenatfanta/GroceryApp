@@ -76,6 +76,7 @@ struct CreateAccountView: View {
             .background(Color.white)
             .cornerRadius(25, corners: [.topLeft, .topRight])
         }
+        // TODO: name and last name is not being read so look in to that
         .onReceive(viewModel.$authState) { newState in
             switch newState {
             case .authenticated(let userCreated):

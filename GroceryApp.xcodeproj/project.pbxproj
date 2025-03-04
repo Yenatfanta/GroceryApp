@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		070C78D52D70C8F500D75947 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 070C78D42D70C8F500D75947 /* Kingfisher */; };
 		07E987BA2D6921E90020DC17 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 07E987B92D6921E90020DC17 /* FirebaseAuth */; };
 		07E987BC2D6921E90020DC17 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 07E987BB2D6921E90020DC17 /* FirebaseCore */; };
 		07E987BE2D6921E90020DC17 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 07E987BD2D6921E90020DC17 /* FirebaseFirestore */; };
@@ -36,9 +37,22 @@
 		07E986DC2D68FD070020DC17 /* GroceryAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GroceryAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		070C78D92D70EA0600D75947 /* Exceptions for "GroceryApp" folder in "GroceryApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 07E986C12D68FD050020DC17 /* GroceryApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		07E986C42D68FD050020DC17 /* GroceryApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				070C78D92D70EA0600D75947 /* Exceptions for "GroceryApp" folder in "GroceryApp" target */,
+			);
 			path = GroceryApp;
 			sourceTree = "<group>";
 		};
@@ -63,6 +77,7 @@
 				07E987BA2D6921E90020DC17 /* FirebaseAuth in Frameworks */,
 				07E987BE2D6921E90020DC17 /* FirebaseFirestore in Frameworks */,
 				07E987C02D6921E90020DC17 /* FirebaseRemoteConfig in Frameworks */,
+				070C78D52D70C8F500D75947 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +143,7 @@
 				07E987BB2D6921E90020DC17 /* FirebaseCore */,
 				07E987BD2D6921E90020DC17 /* FirebaseFirestore */,
 				07E987BF2D6921E90020DC17 /* FirebaseRemoteConfig */,
+				070C78D42D70C8F500D75947 /* Kingfisher */,
 			);
 			productName = GroceryApp;
 			productReference = 07E986C22D68FD050020DC17 /* GroceryApp.app */;
@@ -214,6 +230,7 @@
 			packageReferences = (
 				07E987772D68FE7A0020DC17 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 				07E987B82D6921E90020DC17 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				070C78D32D70C8F500D75947 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 07E986C32D68FD050020DC17 /* Products */;
@@ -440,9 +457,11 @@
 				DEVELOPMENT_ASSET_PATHS = "\"GroceryApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GroceryApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -468,9 +487,11 @@
 				DEVELOPMENT_ASSET_PATHS = "\"GroceryApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GroceryApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -596,6 +617,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		070C78D32D70C8F500D75947 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.2.0;
+			};
+		};
 		07E987772D68FE7A0020DC17 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
@@ -615,6 +644,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		070C78D42D70C8F500D75947 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 070C78D32D70C8F500D75947 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		07E987B92D6921E90020DC17 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 07E987B82D6921E90020DC17 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
