@@ -11,6 +11,7 @@ class BaseViewModel<T: Codable, U>: ObservableObject {
     private let networkManager: NetworkManagerProtocol
     private let urlProvider: () -> String
     private let transform: (T) -> U
+    private var testData: U?
     init(networkManager: NetworkManagerProtocol = NetworkManager.shared,
          urlProvider: @escaping () -> String, transform: @escaping (T) -> U ) {
         self.networkManager = networkManager
@@ -19,12 +20,18 @@ class BaseViewModel<T: Codable, U>: ObservableObject {
     }
     @MainActor
     func fetchData() async {
-        viewState = .loading
-        do {
-            let data: T = try await networkManager.loadData(url: urlProvider())
-            viewState = .loaded(transform(data))
-        } catch {
-            viewState = .error(error.localizedDescription)
+        if let testData = testData {
+            await MainActor.run {
+                viewState = .loaded(testData)
+            }
+        } else {
+            viewState = .loading
+            do {
+                let data: T = try await networkManager.loadData(url: urlProvider())
+                viewState = .loaded(transform(data))
+            } catch {
+                viewState = .error(error.localizedDescription)
+            }
         }
     }
 }

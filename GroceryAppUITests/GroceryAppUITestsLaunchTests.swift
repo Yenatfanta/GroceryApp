@@ -6,7 +6,7 @@
 //
 
 import XCTest
-
+// swiftlint: disable all
 // final class GroceryAppUITestsLaunchTests: XCTestCase {
 //
 //    override static var runsForEachTargetApplicationUIConfiguration: Bool {

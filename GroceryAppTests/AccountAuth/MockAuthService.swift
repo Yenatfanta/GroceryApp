@@ -7,6 +7,7 @@
 
 import Foundation
 @testable import GroceryApp
+// swiftlint: disable all
 struct TestError: Error, LocalizedError {
     let message: String
     var errorDescription: String? { message }
@@ -28,6 +29,13 @@ final class MockAuthService: FirebaseAuthManagerProtocol {
         completionToReturn = completion
     }
     func completeAccountCreationWithSuccess() {
+        mockUser = User(
+            userId: "123",
+            firstName: "Adam",
+            lastName: "Smith",
+            email: emailPassed
+        )
+       // mockUser.password = passwordPassed
         completionToReturn?(.success(mockUser))
     }
     func completeAccountCreationWithError(_ error:

@@ -19,63 +19,73 @@ struct CreateAccountView: View {
     @EnvironmentObject var coordinator: Coordinator
     @StateObject var viewModel = CreateAccountViewModel()
     var body: some View {
-        VStack {
-            ZStack {
-                Image("veggies")
-                    .resizable()
-                    .scaledToFit()
-                    .edgesIgnoringSafeArea(.all)
-            }
-            VStack(alignment: .leading, spacing: 20) {
-                Text("Create Your Account")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                HStack {
-                    TextField("First Name", text: $firstName)
+        ScrollView {
+            VStack {
+                ZStack {
+                    Image("veggies")
+                        .resizable()
+                        .scaledToFit()
+                        .edgesIgnoringSafeArea(.all)
+                }
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("Create Your Account")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    HStack {
+                        TextField("First Name", text: $firstName)
+                            .textFieldStyle(CustomTextFieldStyle())
+                            .accessibilityIdentifier("firstNameField")
+                        TextField("Last Name", text: $lastName)
+                            .textFieldStyle(CustomTextFieldStyle())
+                            .accessibilityIdentifier("lastNameField")
+
+                    }
+                    TextField("Email", text: $email)
                         .textFieldStyle(CustomTextFieldStyle())
-                    TextField("Last Name", text: $lastName)
+                        .accessibilityIdentifier("emailField")
+                    SecureField("Password", text: $password)
                         .textFieldStyle(CustomTextFieldStyle())
+                        .accessibilityIdentifier("passwordField")
+                    if let error = errorMessage {
+                        Text(error)
+                            .foregroundStyle(.red)
+                            .font(.caption)
+                            .padding(.top)
+                            .accessibilityIdentifier("errorMessage")
+                    }
+                    Text("By tapping the create account you agree to terms and conditions")
+                        .foregroundStyle(.gray)
+                        .font(.body)
+                        .multilineTextAlignment(.center)
+                    Spacer()
+                    Button {
+                        viewModel
+                            .createAccount(
+                                email: email,
+                                password: password,
+                                firstName: firstName,
+                                lastName: lastName
+                            )
+                    } label: {
+                        Text("CREATE AN ACCOUNT")
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.black)
+                            .frame(maxWidth: .infinity, minHeight: 50)
+                            .background(Color.orange)
+                            .cornerRadius(25)
+                            .padding(.horizontal, 40)
+                            .shadow(radius: 5)
+                    }
+                    .accessibilityIdentifier("createAccountButton")
 
                 }
-                TextField("Email", text: $email)
-                    .textFieldStyle(CustomTextFieldStyle())
-                SecureField("Password", text: $password)
-                    .textFieldStyle(CustomTextFieldStyle())
-                if let error = errorMessage {
-                    Text(error)
-                        .foregroundStyle(.red)
-                        .font(.caption)
-                        .padding(.top)
-                }
-                Text("By tapping the create account you agree to terms and conditions")
-                    .foregroundStyle(.gray)
-                    .font(.body)
-                    .multilineTextAlignment(.center)
-                Spacer()
-                Button {
-                    viewModel
-                        .createAccount(
-                            email: email,
-                            password: password,
-                            firstName: firstName,
-                            lastName: lastName
-                        )
-                } label: {
-                    Text("CREATE AN ACCOUNT")
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.black)
-                        .frame(maxWidth: .infinity, minHeight: 50)
-                        .background(Color.orange)
-                        .cornerRadius(25)
-                        .padding(.horizontal, 40)
-                        .shadow(radius: 5)
-                }
-
+                .padding()
+                .background(Color.white)
+                .cornerRadius(25, corners: [.topLeft, .topRight])
+                
             }
-            .padding()
-            .background(Color.white)
-            .cornerRadius(25, corners: [.topLeft, .topRight])
         }
+        .accessibilityIdentifier("createAccountScroll")
         // TODO: name and last name is not being read so look in to that
         .onReceive(viewModel.$authState) { newState in
             switch newState {
@@ -93,6 +103,7 @@ struct CreateAccountView: View {
             UserCreatedView(userCreatedSuccessfully: $userCreatedSuccessfully, user: $user)
                           .transition(.opacity.combined(with: .scale))
                           .animation(.spring(), value: userCreatedSuccessfully)
+                          .accessibilityIdentifier("userCreatedSuccesfully")
             : nil
         )
     }

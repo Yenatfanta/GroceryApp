@@ -7,7 +7,7 @@
 
 import Testing
 @testable import GroceryApp
-
+// swiftlint: disable all
 struct GroceryAppTests {
 
     @Test func example() async throws {

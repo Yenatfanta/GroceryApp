@@ -7,6 +7,7 @@
 
 import Foundation
 @testable import GroceryApp
+// swiftlint: disable all
 final class MockAuthRepository: AuthRepositoryProtocol {
     var saveUserDetailsCalled = false
     var userIdPassed: String?

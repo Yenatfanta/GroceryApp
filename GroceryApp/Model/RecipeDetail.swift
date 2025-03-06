@@ -43,17 +43,15 @@ struct RecipeDetail: Codable, Identifiable {
                 if let ingredient = try dynamicContainer.decodeIfPresent(
                     String.self,
                     forKey: ingredientKey),
-                    let measure = try dynamicContainer.decodeIfPresent(
+                   let measure = try dynamicContainer.decodeIfPresent(
                     String.self,
                     forKey: measureKey),
                    !ingredient
                     .trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-                    !measure
-                     .trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                   !measure
+                    .trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     ingredientArray
                         .append(IngredientMeasure(ingredient: ingredient, measure: measure))
-                } else {
-                    break
                 }
             } else {
                 break
@@ -72,7 +70,6 @@ struct DynamicCodingKeys: CodingKey {
         stringValue = key
     }
     var intValue: Int? { nil }
-
     init?(intValue: Int) {
         nil
     }

@@ -16,11 +16,12 @@ struct RecipeCard: View {
                     Text(recipe.name)
                         .font(.title)
                         .fontWeight(.bold)
+                        .accessibilityIdentifier("recipeName")
                     Text(recipe.origin)
                         .padding(4)
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(5)
-                    
+                        .accessibilityIdentifier("recipeOrigin")
                 }
                 .padding(.horizontal)
                 KFImage(URL(string: recipe.thumbnail))
@@ -28,6 +29,7 @@ struct RecipeCard: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(height: 250)
                     .cornerRadius(10)
+                    .accessibilityIdentifier("recipeImage")
                 if let youtubeURL = recipe.youtube {
                     Link(destination: URL(string: youtubeURL)!) {
                         HStack {
@@ -37,6 +39,7 @@ struct RecipeCard: View {
                         .foregroundStyle(.blue)
                     }
                     .padding(.horizontal)
+                    .accessibilityIdentifier("youtubeLink")
                 }
                 VStack(alignment: .leading) {
                     Text("Ingredients")
@@ -68,6 +71,6 @@ struct RecipeCard: View {
                 }
                 .padding(.horizontal)
             }
-        }
+        }.accessibilityIdentifier("recipeCardScrollView")
     }
 }

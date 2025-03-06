@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import GroceryApp
+// swiftlint: disable all
 final class CreateViewModelTest: XCTestCase {
     var viewModel: CreateAccountViewModel!
     var mockAuthManager: MockAuthService!

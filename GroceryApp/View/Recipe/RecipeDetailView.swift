@@ -24,12 +24,34 @@ struct RecipeDetailView: View {
                     RecipeCard(recipe: recipe)
                 }
             default:
-                Text("view state: \(viewModel.viewState)")
+                dataNotLoadedView
             }
         }
         .task {
             await viewModel.fetchData()
         }
+    }
+    private var dataNotLoadedView: some View {
+        VStack {
+            Image(systemName: "exclamationmark.triangle")
+                .font(.system(size: 50))
+                .foregroundStyle(.orange)
+            Text("Oops something went wrong")
+                .font(.title2)
+                .fontWeight(.bold)
+            Button {
+                Task {
+                    await viewModel.fetchData()
+                }
+            } label: {
+                Text("Try Again")
+            }
+            .padding()
+            .background(Color.blue)
+            .foregroundStyle(.white)
+            .cornerRadius(10)
+        }
+        .padding()
     }
 }
 #Preview {

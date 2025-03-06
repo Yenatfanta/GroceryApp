@@ -7,7 +7,7 @@
 
 import Foundation
 @testable import GroceryApp
-
+// swiftlint: disable all
 class MockNetworkManager: NetworkManagerProtocol {
     var shouldSucceed: Bool
     var mockResponse: Codable?

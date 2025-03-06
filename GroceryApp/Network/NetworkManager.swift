@@ -11,12 +11,18 @@ protocol NetworkManagerProtocol {
 }
 final class NetworkManager: NetworkManagerProtocol {
     static let shared = NetworkManager()
-    private init() {}
+    private let session: URLSession
+    init(session: URLSession = URLSession.shared) {
+        self.session = session
+    }
     func loadData<T: Codable>(url: String) async throws -> T {
-        guard let url = URL(string: url) else {
+        guard let url = URL(string: url)  else {
             throw APIServiceError.invalidURL
         }
-       let (data, response) = try await URLSession.shared.data(from: url)
+        guard url.scheme != nil, url.host != nil else {
+            throw APIServiceError.invalidURL
+        }
+        let (data, response) = try await session.data(from: url)
         guard let response = response as? HTTPURLResponse else {
             throw APIServiceError.invalidResponse
         }
@@ -26,6 +32,6 @@ final class NetworkManager: NetworkManagerProtocol {
         return try JSONDecoder().decode(T.self, from: data)
     }
 }
-enum APIServiceError: Error {
+enum APIServiceError: Error, Equatable {
     case invalidURL, invalidResponse, responseError(Int)
 }
