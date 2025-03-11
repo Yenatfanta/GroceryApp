@@ -34,7 +34,6 @@ class MockURLSession: URLProtocol {
                 headerFields: nil
             )!
             client?.urlProtocol(self, didReceive: defaultResponse, cacheStoragePolicy: .notAllowed)
-            
             if let data = MockURLSession.responseData {
                 client?.urlProtocol(self, didLoad: data)
             }
@@ -43,3 +42,4 @@ class MockURLSession: URLProtocol {
     }
     override func stopLoading() {}
 }
+//swiftlint:enable all

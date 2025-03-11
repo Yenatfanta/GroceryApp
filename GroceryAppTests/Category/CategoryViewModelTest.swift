@@ -54,3 +54,4 @@ final class CategoryViewModelTest: XCTestCase {
         }
     }
 }
+//swiftlint:enable all

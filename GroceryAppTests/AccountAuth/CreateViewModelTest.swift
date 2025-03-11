@@ -139,3 +139,4 @@ final class CreateViewModelTest: XCTestCase {
         XCTAssertFalse(mockAuthRepository.saveUserDetailsCalled)
     }
 }
+//swiftlint:enable all

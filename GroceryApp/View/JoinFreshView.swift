@@ -45,6 +45,7 @@ struct JoinFreshView: View {
                         .padding(.horizontal, 40)
                         .shadow(radius: 5)
                 }
+                .accessibilityIdentifier("joinpageCreateAccountButton")
                 Button {
                     coordinator.navigate(to: Destination.loginPage)
                 }

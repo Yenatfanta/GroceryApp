@@ -26,3 +26,4 @@ final class MockAuthRepository: AuthRepositoryProtocol {
         
     }
 }
+//swiftlint:enable all

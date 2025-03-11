@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseAuth
 protocol FirebaseAuthManagerProtocol {
-    func createAccount(email: String, password: String, completion: @escaping (Result<User, Error>) -> Void)
+    func createAccount(email: String, password: String, firstName: String, lastName: String, completion: @escaping (Result<User, Error>) -> Void)
     func signIn(email: String, password: String, completion: @escaping (Result<User, Error>) -> Void)
     func getCurrentUser() -> User?
     func signOut(completion: @escaping (Error?) -> Void)
@@ -16,15 +16,15 @@ protocol FirebaseAuthManagerProtocol {
 final class FirebaseAuthManager: FirebaseAuthManagerProtocol {
     static let shared = FirebaseAuthManager()
     private init() {}
-    func createAccount(email: String, password: String, completion: @escaping (Result<User, Error>) -> Void) {
+    func createAccount(email: String, password: String, firstName: String, lastName: String, completion: @escaping (Result<User, Error>) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 completion(.failure(error))
             } else if let authUser = authResult?.user {
                 let user = User(
                     userId: authUser.uid,
-                    firstName: nil,
-                    lastName: nil,
+                    firstName: firstName,
+                    lastName: lastName,
                     email: authUser.email
                 )
                 completion(.success(user))

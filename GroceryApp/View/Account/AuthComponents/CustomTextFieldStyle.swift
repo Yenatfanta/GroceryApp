@@ -6,17 +6,18 @@
 //
 
 import SwiftUI
-struct CustomTextField: View {
-    let placeHolder: String
-    @Binding var text: String
-    var body: some View {
-        HStack {
-            TextField(placeHolder, text: $text)
-                .textContentType(.emailAddress)
-                .textFieldStyle(CustomTextFieldStyle())
-        }
-        .padding()
-        .cornerRadius(10)
+struct CustomTextFieldStyle: TextFieldStyle {
+    // swiftlint:disable:next identifier_name
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .padding(.horizontal, 12)
+            .padding(.vertical, 14)
+            .background(Color(UIColor.systemBackground))
+            .cornerRadius(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.orange.opacity(0.3), lineWidth: 1)
+            )
     }
 }
 struct CustomSecureField: View {

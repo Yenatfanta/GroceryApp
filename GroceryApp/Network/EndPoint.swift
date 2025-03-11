@@ -15,6 +15,10 @@ struct EndPoint {
     }
     static var mealId: String = "52772"
     static var recipeDetail: String {
-        "https://www.themealdb.com/api/json/v1/1/lookup.php?i=\(mealId)"
+        if mealId == "random" {
+            return "https://www.themealdb.com/api/json/v1/1/random.php"
+        } else {
+           return "https://www.themealdb.com/api/json/v1/1/lookup.php?i=\(mealId)"
+        }
     }
 }

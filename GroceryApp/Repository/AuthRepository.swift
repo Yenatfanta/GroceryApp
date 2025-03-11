@@ -17,7 +17,7 @@ final class FirebaseAuthRepository: AuthRepositoryProtocol {
     let database = Firestore.firestore()
     static let shared = FirebaseAuthRepository()
     func saveUserDetails(userId: String, firstName: String, lastName: String, email: String) {
-        // TODO: save user
+       
         database
             .collection("users")
             .document(userId)

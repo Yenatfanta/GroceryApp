@@ -78,3 +78,4 @@ final class MockAuthService: FirebaseAuthManagerProtocol {
         signOutCompletion?(nil)
     }
 }
+//swiftlint:enable all

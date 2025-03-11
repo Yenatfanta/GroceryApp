@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 final class CreateAccountViewModel: ObservableObject {
     private let authManager: FirebaseAuthManagerProtocol
     private let repository: AuthRepositoryProtocol
@@ -17,7 +18,7 @@ final class CreateAccountViewModel: ObservableObject {
     }
     func createAccount(email: String, password: String, firstName: String, lastName: String) {
         authManager
-            .createAccount(email: email, password: password) { [weak self] result in
+            .createAccount(email: email, password: password, firstName: firstName, lastName: lastName) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success(let user):
@@ -29,6 +30,7 @@ final class CreateAccountViewModel: ObservableObject {
                             email: email
                         )
                     self.authState = .authenticated(user)
+                    print("view model: \(user)")
                 case .failure(let error):
                     self.authState = .error(error.localizedDescription)
                 }

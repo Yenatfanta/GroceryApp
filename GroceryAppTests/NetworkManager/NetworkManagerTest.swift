@@ -27,6 +27,7 @@ final class NetworkManagerTest: XCTestCase {
         MockURLSession.mockResponse = nil
         super.tearDown()
     }
+  
     func test_load_data_successful() async throws {
         // Given
         let mockData = """
@@ -135,3 +136,4 @@ final class NetworkManagerTest: XCTestCase {
         }
     }
 }
+//swiftlint:enable all

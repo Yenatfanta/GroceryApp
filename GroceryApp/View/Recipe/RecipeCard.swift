@@ -9,68 +9,77 @@ import SwiftUI
 import Kingfisher
 struct RecipeCard: View {
     var recipe: RecipeDetail
+    @State private var selectedTab = 0
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                VStack(alignment: .leading) {
-                    Text(recipe.name)
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .accessibilityIdentifier("recipeName")
-                    Text(recipe.origin)
-                        .padding(4)
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(5)
-                        .accessibilityIdentifier("recipeOrigin")
-                }
-                .padding(.horizontal)
-                KFImage(URL(string: recipe.thumbnail))
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 250)
-                    .cornerRadius(10)
-                    .accessibilityIdentifier("recipeImage")
-                if let youtubeURL = recipe.youtube {
-                    Link(destination: URL(string: youtubeURL)!) {
-                        HStack {
-                            Image(systemName: "play.circle")
-                            Text("Watch on YouTube")
-                        }
-                        .foregroundStyle(.blue)
+            VStack(alignment: .leading, spacing: 0) {
+                ZStack(alignment: .bottomLeading) {
+                    KFImage(URL(string: recipe.thumbnail))
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 250)
+                        .cornerRadius(10)
+                        .accessibilityIdentifier("recipeImage")
+                    LinearGradient(
+                        gradient: Gradient(colors: [.clear, .black.opacity(0.7)]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .frame(height: 150)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(recipe.origin)
+                            .font(.headline)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .background(Color.orange)
+                            .cornerRadius(20)
+                            .accessibilityIdentifier("recipeOrigin")
+
+                        Text(recipe.name)
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                            .accessibilityIdentifier("recipeName")
                     }
                     .padding(.horizontal)
-                    .accessibilityIdentifier("youtubeLink")
+                    .padding(.bottom)
                 }
-                VStack(alignment: .leading) {
-                    Text("Ingredients")
-                        .font(.headline)
-                    ForEach(recipe.ingredients) { ingredient in
-                        HStack {
-                            Text(ingredient.ingredient)
-                            Spacer()
-                            Text(ingredient.measure)
-                                .foregroundStyle(.gray)
+                HStack(spacing: 20) {
+                    FavoriteButton(recipe: recipe)
+                    Spacer()
+                    if let youtubeURL = recipe.youtube, let url = URL(string: youtubeURL) {
+                        Link(destination: url ) {
+                            Label("Watch", systemImage: "play.circle.fill")
+                                .font(.subheadline.bold())
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 10)
+                                .background(Color.red)
+                                .clipShape(Capsule())
                         }
-                        .padding()
-                        Divider()
+                        .accessibilityIdentifier("youtubeLink")
                     }
                 }
                 .padding(.horizontal)
-                VStack(alignment: .leading) {
-                    Text("Instructions")
-                        .font(.headline)
-                    ForEach(Array(recipe.instructions.split(separator: "\r\n")
-                        .enumerated()), id: \.offset) { index, instruction in
-                            HStack(alignment: .top) {
-                                Text("\(index + 1).")
-                                    .foregroundColor(.gray)
-                                Text(String(instruction))
-                            }
-                            .padding(.vertical, 4)
-                        }
-                }
-                .padding(.horizontal)
+                .padding(.vertical, 12)
+                VStack(spacing: 0) {
+                    HStack {
+                        TabButton(title: "Ingredients", index: 0, selectedTab: $selectedTab)
+                        TabButton(title: "Instructions", index: 1, selectedTab: $selectedTab)
+                    }
+                    if selectedTab == 0 {
+                        IngredientsView(ingredients: recipe.ingredients)
+                    } else {
+                        InstructionsView(instructions: recipe.instructions)
+                    }
+                                    }
+                Spacer(minLength: 60)
             }
-        }.accessibilityIdentifier("recipeCardScrollView")
+        }
+        .accessibilityIdentifier("recipeCardScrollView")
+        .edgesIgnoringSafeArea(.top)
+        .background(Color(.systemBackground))
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProductHomeView: View {
-    @StateObject var viewModel = ProductViewModel()
+    @StateObject var viewModel = CategoryViewModel()
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
     var body: some View {
         ScrollView {
@@ -29,8 +29,16 @@ struct ProductHomeView: View {
                 }
                 .padding(.horizontal)
                 HStack {
-                    FeaturedCardView(title: "Recommended Recipe Today", imageName: "dailyrecipe")
-                    FeaturedCardView(title: "Fresh Delivery", imageName: "freshPicks")
+                    FeaturedCardView(
+                        title: "Recommended Recipe Today",
+                        imageName: "dailyrecipe",
+                        mealId: "random"
+                    )
+                    FeaturedCardView(
+                        title: "Fresh Delivery",
+                        imageName: "freshPicks",
+                        mealId: "52772"
+                    )
                 }
                 .padding(.horizontal)
                 VStack {
@@ -42,26 +50,15 @@ struct ProductHomeView: View {
                         Image(systemName: "chevron.right")
                     }
                     .padding(.horizontal)
-                    LazyVGrid(columns: columns, spacing: 10) {
-                        switch viewModel.viewState {
-                        case .loaded(let products):
-                            ForEach(products) { product in
-                                ProductCard(product: product)
-                            }
-                        default:
-                            EmptyView()
-                        }
-                    }
+                    CategoryView()
                 }
             }
-        }
-        .task {
-           // print("in task...")
-            await viewModel.loadProducts()
+            .task {
+                await viewModel.fetchData()
+            }
         }
     }
 }
-
 #Preview {
     ProductHomeView()
 }

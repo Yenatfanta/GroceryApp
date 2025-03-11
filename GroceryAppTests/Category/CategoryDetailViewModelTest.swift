@@ -44,6 +44,7 @@ final class CategoryDetailViewModelTest: XCTestCase {
             XCTAssertEqual(mealDetails.count, 1)
             XCTAssertEqual(mealDetails[0].id, "52772")
             XCTAssertEqual(mealDetails[0].name, "Teriyaki Chicken")
+            // swiftlint:disable:next line_length
             XCTAssertEqual(mealDetails[0].thumbnail, "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg")
         default:
             XCTFail("expected view state loaded with meal details")
@@ -67,3 +68,4 @@ final class CategoryDetailViewModelTest: XCTestCase {
         }
     }
 }
+//swiftlint:enable all

@@ -8,83 +8,86 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State var email = ""
-    @State var password = ""
-    @State var isSecure = true
+    @State private var email = ""
+    @State private var password = ""
+    @State private var isPasswordVisible = false
+    @State private var isLoading = false
+    @State private var errorMessage: String?
+    @FocusState private var focusedField: Field?
     @EnvironmentObject var coordinator: Coordinator
+    @StateObject var viewModel = AuthViewModel()
+    enum Field: Hashable {
+        case email, password
+    }
     var body: some View {
-        ZStack {
-            backgroundLayer
-            VStack {
-                Spacer()
-                VStack(alignment: .leading, spacing: 20) {
-                    headerSection
-                    formSection
-                    signInButton
+        VStack(spacing: 0) {
+            Image("oranges")
+                .resizable()
+                .scaledToFill()
+                .frame(height: 300)
+                .clipped()
+            VStack(spacing: 24) {
+                AuthTextField(title: "Email",
+                              placeholder: "email",
+                              text: $email,
+                              keyboardtype: .emailAddress,
+                              submitLabel: .next,
+                              onSubmit: {focusedField = .password},
+                              focusState: $focusedField,
+                              field: .email)
+                AuthPasswordField(
+                    title: "Password",
+                    placeholder: "password",
+                    text: $password,
+                    isVisible: $isPasswordVisible,
+                    submitLabel: .done,
+                    onSubmit: validateAndSignIn,
+                    focusedState: $focusedField,
+                    field: .password
+                )
+                Button {
+                     
+                } label: {
+                    Text("forgot password")
+                        .font(.footnote)
+                        .foregroundStyle(.orange)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                 }
-                .padding()
-                .frame(
-                    maxWidth: UIScreen.main.bounds.width * 1,
-                    alignment: .bottom
+                .padding(.top, -8)
+                Spacer()
+                if let error = errorMessage {
+                    AuthErrorMessage(message: error)
+                }
+                AuthButton(
+                    title: "SIGN IN",
+                    action: validateAndSignIn,
+                    isLoading: isLoading
                 )
-                .background(
-                    RoundedRectangle(cornerRadius: 25)
-                        .fill(Color.white)
-                        .shadow(radius: 10)
+                AuthNavigationLink(
+                    question: "Don't have an account?",
+                    linkText: "Create Account",
+                    action: { coordinator.navigate(to: Destination.createAccount) }
                 )
+                .padding(.bottom, 40)
+            }
+            .padding(.horizontal, 24)
+            .padding(.top, 24)
+            .background(Color.white)
+            .frame(maxHeight: .infinity)
+        }
+        .navigationBarBackButtonHidden(true)
+        .edgesIgnoringSafeArea(.all)
+        .toolbar {
+            KeyBoardToolBar {
+                focusedField = nil
             }
         }
     }
-    private var headerSection: some View {
-        Text("Sign in")
-            .font(.title)
-            .fontWeight(.bold)
-            .foregroundStyle(.black)
-            .padding(.bottom, 10)
-    }
-    private var backgroundLayer: some View {
-        Image("oranges")
-            .resizable()
-            .scaledToFill()
-            .ignoresSafeArea()
-    }
-    private var signInButton: some View {
-        Button {
-            // TODO: login
-            coordinator.navigate(to: Destination.productTab)
-        } label: {
-            Text("SIGN IN")
-                .fontWeight(.semibold)
-                .foregroundStyle(.black)
-                .frame(maxWidth: .infinity, minHeight: 50)
-                .background(Color.orange)
-                .cornerRadius(25)
-                .shadow(radius: 5)
-        }
-    }
-    private var formSection: some View {
-        VStack(spacing: 16) {
-            CustomTextField(
-                placeHolder: "Email",
-                text: $email
-            )
-            CustomSecureField(
-                placeHolder: "Password",
-                text: $password,
-                isSecured: $isSecure
-            )
-            Button {
-             // TODO: forgot password
-            } label: {
-               Text("Forgot Password?")
-                    .font(.footnote)
-                    .foregroundStyle(.orange)
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-            }
-        }
+    private func validateAndSignIn() {
+        coordinator.navigate(to: Destination.productTab)
     }
 }
-
 #Preview {
     LoginView()
+        .environmentObject(Coordinator())
 }

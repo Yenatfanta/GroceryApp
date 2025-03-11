@@ -7,7 +7,7 @@
 
 import Testing
 @testable import GroceryApp
-// swiftlint: disable all
+// swiftlint:disable:next all
 struct GroceryAppTests {
 
     @Test func example() async throws {

@@ -37,6 +37,8 @@ final class AuthViewModel: ObservableObject {
     private func handleAuthResult(_ result: Result<User, Error>) {
         switch result {
         case .success(let user):
+            print("view model use: \(user)")
+            
             authState = .authenticated(user)
         case .failure(let error):
             authState = .error(error.localizedDescription)

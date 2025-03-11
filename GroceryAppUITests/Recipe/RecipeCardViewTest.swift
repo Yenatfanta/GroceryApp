@@ -6,7 +6,7 @@
 //
 
 import XCTest
-
+//swiftlint:disable all
 final class RecipeCardViewTest: XCTestCase {
     let app = XCUIApplication()
     override func setUpWithError() throws {
@@ -15,21 +15,19 @@ final class RecipeCardViewTest: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-       
     }
     // swiftlint:disable line_length
     func test_recipe_detail_view_scrollview_did_appear() {
         app.buttons["Next"].tap()
         app.buttons["Login"].tap()
         app.buttons["SIGN IN"].tap()
-        app.tabBars["Tab Bar"]/*@START_MENU_TOKEN@*/.buttons["arrow.right.arrow.left"]/*[[".buttons[\"category\"]",".buttons[\"arrow.right.arrow.left\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.buttons["Category"].tap()
 
         let element = app.scrollViews.children(matching: .other).element(boundBy: 0).children(
             matching: .other
         ).element
-        element.children(matching: .image).element(boundBy: 0).tap()
         element.children(matching: .image).element(boundBy: 2).swipeUp()
-        
+        XCTAssertTrue(element.exists)
     }
     // swiftlint:enable line_length
     func testLaunchPerformance() throws {
@@ -41,3 +39,4 @@ final class RecipeCardViewTest: XCTestCase {
         }
     }
 }
+//swiftlint:enable all

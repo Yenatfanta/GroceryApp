@@ -18,6 +18,7 @@ enum Destination: Hashable, DestinationProtocol {
     case productTab
     case detailView(String)
     case recipeDetailView(String)
+    case favorite
     func makeView() -> AnyView {
         switch self {
         case .welcomePage:
@@ -29,11 +30,13 @@ enum Destination: Hashable, DestinationProtocol {
         case .loginPage:
             return AnyView(LoginView())
         case .productTab:
-            return AnyView(TabViewNavigator())
+            return AnyView(CustomTabBarView())
         case .detailView(let selectedMeal):
             return AnyView(CategoryDetailView(selectedMeal: selectedMeal))
         case .recipeDetailView(let mealId):
             return AnyView(RecipeDetailView(mealId: mealId))
+        case .favorite:
+            return AnyView(FavoritesView())
         }
     }
 }

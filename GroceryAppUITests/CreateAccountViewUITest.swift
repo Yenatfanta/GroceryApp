@@ -6,12 +6,10 @@
 //
 
 import XCTest
-// swiftlint:disable trailing_whitespace
-// swiftlint:disable line_length
+// swiftlint:disable trailing_whitespace line_length
 final class CreateAccountViewUITest: XCTestCase {
     let app = XCUIApplication()
     override func setUpWithError() throws {
-        
         continueAfterFailure = false
         app.launch()
     }
@@ -27,9 +25,8 @@ final class CreateAccountViewUITest: XCTestCase {
         XCTAssertTrue(app.textFields["emailField"].exists)
         XCTAssertTrue(app.secureTextFields["passwordField"].exists)
         XCTAssertTrue(app.buttons["createAccountButton"].exists)
-        
+        XCTAssertTrue(app.scrollViews["createAccountScroll"].exists)
     }
-   
     func testUserCanEnterDetailsAndSubmit() throws {
         app.buttons["Next"].tap()
         app.buttons["Create An Account"].tap()
@@ -37,6 +34,7 @@ final class CreateAccountViewUITest: XCTestCase {
         let lastNameField = app.textFields["lastNameField"]
         let emailField = app.textFields["emailField"]
         let passwordField = app.secureTextFields["passwordField"]
+        let confirmPassword = app.secureTextFields["confirmPasswordField"]
         let createAccountButton = app.buttons["createAccountButton"]
         
         firstNameField.tap()
@@ -49,19 +47,15 @@ final class CreateAccountViewUITest: XCTestCase {
         emailField.typeText("john.doe@example.com")
     
         passwordField.tap()
-        passwordField.typeText("Test1234!")
-        passwordField.swipeUp()
+        passwordField.typeText("Test1234!55")
+        confirmPassword.tap()
+        confirmPassword.typeText("Test1234!55")
+        confirmPassword.swipeUp()
        
         createAccountButton.tap()
-        let successView = app.otherElements["userCreatedSuccesfully"]
+        let successView = app.otherElements["userCreatedSuccessfully"]
         XCTAssertTrue(successView.waitForExistence(timeout: 10))
     }
-    func test_create_account_view_scrollview_didAppear() {
-        app.buttons["Next"].tap()
-        app.buttons["Create An Account"].tap()
-        XCTAssertTrue(app.scrollViews["createAccountScroll"].exists)
-    }
-   
     func testLaunchPerformance() throws {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
             // This measures how long it takes to launch your application.
@@ -73,8 +67,6 @@ final class CreateAccountViewUITest: XCTestCase {
     func testErrorMessageDisplaysForInvalidInput() throws {
         app.buttons["Next"].tap()
         app.buttons["Create An Account"].tap()
-        let firstNameField = app.textFields["firstNameField"]
-        let lastNameField = app.textFields["lastNameField"]
         let emailField = app.textFields["emailField"]
         let passwordField = app.secureTextFields["passwordField"]
         let createAccountButton = app.buttons["createAccountButton"]
@@ -91,5 +83,4 @@ final class CreateAccountViewUITest: XCTestCase {
             XCTAssertTrue(errorMessage.waitForExistence(timeout: 3))
         }
 }
-// swiftlint:enable trailing_whitespace
-// swiftlint:enable line_length
+// swiftlint:enable trailing_whitespace line_length

@@ -51,10 +51,11 @@ final class FirebaseAuthManagerTests: XCTestCase {
         mockAuthService.completeAccountCreationWithError(expectedError)
         // Then
         switch result {
-          case .failure(let error):
+        case .failure(let error):
             XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription)
         default:
             XCTFail("Expected failure, but got success")
         }
     }
 }
+//swiftlint:enable all

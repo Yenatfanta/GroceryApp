@@ -31,3 +31,4 @@ enum NetworkError: Error {
     case unknown
     case invalidResponse
 }
+//swiftlint:enable all

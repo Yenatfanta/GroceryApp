@@ -6,7 +6,7 @@
 //
 
 import XCTest
-// swiftlint: disable all
+// swiftlint:disable:next all
 // final class GroceryAppUITestsLaunchTests: XCTestCase {
 //
 //    override static var runsForEachTargetApplicationUIConfiguration: Bool {

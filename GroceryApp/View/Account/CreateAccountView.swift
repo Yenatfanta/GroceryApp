@@ -12,128 +12,176 @@ struct CreateAccountView: View {
     @State private var lastName = ""
     @State private var email = ""
     @State private var password = ""
+    @State private var confirmPassword = ""
+    @State private var isPasswordVisible = false
+    @State private var isConfirmPasswordVisible = false
     @State private var userCreatedSuccessfully = false
     @State private var errorMessage: String?
+    @State private var isLoading = false
     @State private var user: User?
+    @FocusState private var focusedField: Field?
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var coordinator: Coordinator
     @StateObject var viewModel = CreateAccountViewModel()
+    enum Field: Hashable {
+        case firstName, lastName, email, password, confirmPassword
+    }
     var body: some View {
+//        Text("Creaye account")
         ScrollView {
-            VStack {
-                ZStack {
-                    Image("veggies")
-                        .resizable()
-                        .scaledToFit()
-                        .edgesIgnoringSafeArea(.all)
-                }
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("Create Your Account")
-                        .font(.title2)
+            VStack(spacing: 0) {
+                Image("veggies")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 200)
+                    .clipped()
+                VStack(alignment: .leading, spacing: 24) {
+                    Text("CREATE YOUR ACCOUNT")
+                        .font(.title)
                         .fontWeight(.bold)
-                    HStack {
-                        TextField("First Name", text: $firstName)
-                            .textFieldStyle(CustomTextFieldStyle())
-                            .accessibilityIdentifier("firstNameField")
-                        TextField("Last Name", text: $lastName)
-                            .textFieldStyle(CustomTextFieldStyle())
-                            .accessibilityIdentifier("lastNameField")
-
-                    }
-                    TextField("Email", text: $email)
-                        .textFieldStyle(CustomTextFieldStyle())
-                        .accessibilityIdentifier("emailField")
-                    SecureField("Password", text: $password)
-                        .textFieldStyle(CustomTextFieldStyle())
-                        .accessibilityIdentifier("passwordField")
-                    if let error = errorMessage {
-                        Text(error)
-                            .foregroundStyle(.red)
-                            .font(.caption)
-                            .padding(.top)
-                            .accessibilityIdentifier("errorMessage")
-                    }
-                    Text("By tapping the create account you agree to terms and conditions")
-                        .foregroundStyle(.gray)
-                        .font(.body)
-                        .multilineTextAlignment(.center)
-                    Spacer()
-                    Button {
-                        viewModel
-                            .createAccount(
-                                email: email,
-                                password: password,
-                                firstName: firstName,
-                                lastName: lastName
+                        .padding(.bottom, 8)
+                    Group {
+                        VStack(spacing: 16) {
+                            HStack {
+                                AuthTextField(
+                                    title: "First Name",
+                                    placeholder: "",
+                                    text: $firstName,
+                                    submitLabel: .next,
+                                    onSubmit: {focusedField = .lastName },
+                                    focusState: $focusedField,
+                                    field: .firstName
+                                )
+                                .accessibilityIdentifier(
+                                    CreateAccountId.firstNameField)
+                                AuthTextField(
+                                    title: "Last Name",
+                                    placeholder: "",
+                                    text: $lastName,
+                                    submitLabel: .next,
+                                    onSubmit: {focusedField = .email },
+                                    focusState: $focusedField,
+                                    field: .lastName
+                                )
+                                .accessibilityIdentifier(
+                                    CreateAccountId.lastNameField
+                                )
+                            }
+                            AuthTextField(
+                                title: "Email",
+                                placeholder: "example@email.com",
+                                text: $email,
+                                keyboardtype: .emailAddress,
+                                submitLabel: .next,
+                                onSubmit: {focusedField = .password },
+                                focusState: $focusedField,
+                                field: .email
                             )
-                    } label: {
-                        Text("CREATE AN ACCOUNT")
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.black)
-                            .frame(maxWidth: .infinity, minHeight: 50)
-                            .background(Color.orange)
-                            .cornerRadius(25)
-                            .padding(.horizontal, 40)
-                            .shadow(radius: 5)
+                            .accessibilityIdentifier(
+                                CreateAccountId.emailField
+                            )
+                            AuthPasswordField(
+                                title: "Password",
+                                placeholder: "At least 8 characters",
+                                text: $password,
+                                isVisible: $isPasswordVisible,
+                                submitLabel: .next,
+                                onSubmit: {focusedField = .confirmPassword},
+                                focusedState: $focusedField,
+                                field: .password
+                            )
+                            .accessibilityIdentifier(
+                                CreateAccountId.passwordField
+                            )
+                            AuthPasswordField(
+                                title: "Confirm Password",
+                                placeholder: "Confirm password",
+                                text: $confirmPassword,
+                                isVisible: $isPasswordVisible,
+                                submitLabel: .next,
+                                onSubmit: {focusedField = .confirmPassword},
+                                focusedState: $focusedField,
+                                field: .confirmPassword
+                            )
+                            .accessibilityIdentifier(
+                                CreateAccountId.confirmPasswordField)
+                        }
                     }
-                    .accessibilityIdentifier("createAccountButton")
-
+                    if let error = errorMessage {
+                        AuthErrorMessage(message: error)
+                            .accessibilityIdentifier(
+                                CreateAccountId.errorMessage
+                            )
+                    }
+                    Group {
+                    Text("By tapping Create Account, you agree to our [Terms of Service](terms) and [Privacy Policy](privacy)")
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 16)
+                    AuthButton(
+                        title: "Create Account",
+                        action: {
+                            viewModel
+                                .createAccount(
+                                    email: email,
+                                    password: password,
+                                    firstName: firstName,
+                                    lastName: lastName
+                                )
+                        },
+                        isLoading: isLoading)
+                    .padding(.top, 20)
+                    .accessibilityIdentifier(
+                        CreateAccountId.createAccountButton
+                    )
                 }
-                .padding()
+                    AuthNavigationLink(
+                        question: "Already have an account?",
+                        linkText: "Sign In",
+                        action: { dismiss() }
+                    )
+                }
+                .padding(24)
                 .background(Color.white)
-                .cornerRadius(25, corners: [.topLeft, .topRight])
-                
+                .cornerRadius(30, corners: [.topLeft, .topRight])
             }
         }
-        .accessibilityIdentifier("createAccountScroll")
-        // TODO: name and last name is not being read so look in to that
+        .edgesIgnoringSafeArea(.top)
+        .background(Color(UIColor.systemBackground))
+        .accessibilityIdentifier(
+            CreateAccountId.createAccountScroll
+        )
+        .toolbar {
+            KeyBoardToolBar {
+                focusedField = nil
+            }
+        }
         .onReceive(viewModel.$authState) { newState in
             switch newState {
             case .authenticated(let userCreated):
+                isLoading = false
                 userCreatedSuccessfully = true
                 user = userCreated
+                print("view user \(user)")
+            case .none:
+                isLoading = false
+            case .loading:
+                isLoading = true
             case .error(let error):
+                isLoading = false
                 errorMessage = error
-            default:
-                print("sorry user couldn't be created")
             }
         }
         .overlay(
             userCreatedSuccessfully ?
             UserCreatedView(userCreatedSuccessfully: $userCreatedSuccessfully, user: $user)
-                          .transition(.opacity.combined(with: .scale))
-                          .animation(.spring(), value: userCreatedSuccessfully)
-                          .accessibilityIdentifier("userCreatedSuccesfully")
+                           .transition(.opacity.combined(with: .scale))
+                           .animation(.spring(), value: userCreatedSuccessfully)
+                           .accessibilityIdentifier(CreateAccountId.userCreatedSuccessfully)
             : nil
         )
-    }
-}
-struct CornerRadiusShape: Shape {
-    var radius = CGFloat.infinity
-    var corners = UIRectCorner.allCorners
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(
-            roundedRect: rect,
-            byRoundingCorners: corners,
-            cornerRadii: CGSize(width: radius, height: radius))
-        return Path(path.cgPath)
-    }
-}
-extension View {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner ) -> some View {
-        clipShape(CornerRadiusShape(radius: radius, corners: corners))
-    }
-}
-struct CustomTextFieldStyle: TextFieldStyle {
-    // swiftlint:disable:next identifier_name
-    func _body(configuration: TextField<Self._Label>) -> some View {
-        configuration
-            .padding()
-            .autocapitalization(.none)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.orange.opacity(0.3), lineWidth: 1)
-            )
     }
 }
 #Preview {

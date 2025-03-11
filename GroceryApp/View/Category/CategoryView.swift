@@ -11,20 +11,19 @@ struct CategoryView: View {
     @EnvironmentObject var coordinator: Coordinator
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: columns, spacing: 10) {
-                switch viewModel.viewState {
-                case .loaded(let categories):
-                    ForEach(categories) { category in
-                        CategoryCard(category: category)
-                    }
-                default:
-                    Text("view state is: \(viewModel.viewState)")
+        TwoColumnGrid(title: "Categories") {
+            ViewStateContainer(viewState: viewModel.viewState) { categories in
+                ForEach(categories) { category in
+                    FoodCard(title: category.name,
+                             imageUrl: category.thumbnail ?? "",
+                             action: {
+                        coordinator
+                            .navigate(to: Destination.detailView(category.name))
+                    })
                 }
             }
-            .navigationTitle("Categories")
-            .padding(.horizontal)
         }
+        .edgesIgnoringSafeArea(.bottom)
         .task {
             await viewModel.fetchData()
         }

@@ -79,3 +79,4 @@ final class BaseViewModelTest: XCTestCase {
         }
     }
 }
+//swiftlint:enable all

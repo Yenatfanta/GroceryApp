@@ -6,7 +6,7 @@
 //
 
 import XCTest
-// swiftlint: disable all
+// swiftlint:disable:next all
 // final class GroceryAppUITests: XCTestCase {
 //
 //    override func setUpWithError() throws {
@@ -42,4 +42,4 @@ import XCTest
 ////            }
 ////        }
 ////    }
-//}
+// }

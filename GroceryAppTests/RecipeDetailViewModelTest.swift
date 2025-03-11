@@ -70,12 +70,10 @@ final class RecipeDetailViewModelTest: XCTestCase {
     func test_fetch_recipe_detail_success() async {
         // Given: Mock a valid API response
         let mockData = createMockJson()
-        let mockResponse = try! JSONDecoder().decode(RecipeDetailResponse.self, from: mockData)
+        let mockResponse = try? JSONDecoder().decode(RecipeDetailResponse.self, from: mockData)
         networkManager.mockResponse = mockResponse
-        
         // When: Fetch data
         await viewModel.fetchData()
-        
         // Then: Validate ViewModel updates correctly
         switch viewModel.viewState {
         case .loaded(let recipes):
@@ -91,10 +89,8 @@ final class RecipeDetailViewModelTest: XCTestCase {
         // Given: Simulate a network failure
         networkManager.shouldSucceed = false
         networkManager.mockError = NetworkError.invalidResponse
-        
         // When: Fetch data
         await viewModel.fetchData()
-        
         // Then: Expect error state
         switch viewModel.viewState {
         case .error(let message):
@@ -104,3 +100,4 @@ final class RecipeDetailViewModelTest: XCTestCase {
         }
     }
 }
+//swiftlint:enable all

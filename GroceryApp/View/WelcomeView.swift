@@ -49,6 +49,7 @@ struct WelcomeView: View {
                         .padding(.horizontal, 40)
                         .shadow(radius: 5)
                 }
+                .accessibilityIdentifier("Next")
             }
             .navigationDestination(for: Destination.self) { destination in
                 coordinator.build(destination)

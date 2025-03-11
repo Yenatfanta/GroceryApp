@@ -10,7 +10,7 @@ import SwiftUI
 import UIKit
 
 struct ConfettiViewWrapper: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) ->  ConfettiViewController {
+    func makeUIViewController(context: Context) -> ConfettiViewController {
         return ConfettiViewController()
     }
     func updateUIViewController(_ uiViewController: ConfettiViewController, context: Context) {}

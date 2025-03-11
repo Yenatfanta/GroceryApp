@@ -27,7 +27,7 @@ struct UserCreatedView: View {
                     .font(.title2)
                     .bold()
                     .foregroundColor(.primary)
-                Text("\(user?.firstName ?? "") \(user?.lastName ?? "")")
+                Text("\(user?.firstName ?? "unknown") \(user?.lastName ?? "unknown")")
                     .font(.subheadline)
                     .bold()
                     .foregroundColor(.primary)
@@ -60,6 +60,7 @@ struct UserCreatedView: View {
             )
             .padding(.horizontal, 40)
         }
+        .edgesIgnoringSafeArea(.bottom)
         .overlay {
             if userCreatedSuccessfully {
                 ConfettiViewWrapper()
