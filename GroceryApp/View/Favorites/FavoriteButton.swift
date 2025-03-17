@@ -11,13 +11,14 @@ struct FavoriteButton: View {
     let recipe: RecipeDetail
     @EnvironmentObject var coordinator: Coordinator
     @StateObject var viewModel = FavoritesViewModel()
-  
     var body: some View {
         Button {
-            viewModel.toggleFavorite(recipe: recipe)
+            withAnimation {
+                viewModel.toggleFavorite(recipe: recipe)
+            }
         } label: {
             Label(
-                viewModel.isFavorite(recipe.id) ? "Saved" : "Save",
+                viewModel.isFavorite(recipe.id) ? "Liked" : "Like",
                 systemImage: viewModel.isFavorite(recipe.id) ? "heart.fill" : "heart"
             )
             .font(.subheadline.bold())

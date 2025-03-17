@@ -21,7 +21,7 @@ struct LoginView: View {
     }
     var body: some View {
         VStack(spacing: 0) {
-            Image("oranges")
+            Image("food")
                 .resizable()
                 .scaledToFill()
                 .frame(height: 300)
@@ -48,7 +48,7 @@ struct LoginView: View {
                 Button {
                      
                 } label: {
-                    Text("forgot password")
+                    Text("Forgot Password?")
                         .font(.footnote)
                         .foregroundStyle(.orange)
                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -59,7 +59,7 @@ struct LoginView: View {
                     AuthErrorMessage(message: error)
                 }
                 AuthButton(
-                    title: "SIGN IN",
+                    title: "LOG IN",
                     action: validateAndSignIn,
                     isLoading: isLoading
                 )

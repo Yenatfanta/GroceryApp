@@ -50,6 +50,7 @@ struct WelcomeView: View {
                         .shadow(radius: 5)
                 }
                 .accessibilityIdentifier("Next")
+                .padding(.bottom, 10)
             }
             .navigationDestination(for: Destination.self) { destination in
                 coordinator.build(destination)
@@ -58,6 +59,7 @@ struct WelcomeView: View {
             .navigationBarBackButtonHidden(true)
         }
         .padding(.bottom, 40)
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 

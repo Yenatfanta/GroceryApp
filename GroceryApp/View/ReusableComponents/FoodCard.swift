@@ -13,12 +13,12 @@ struct FoodCard: View {
     let imageUrl: String
     let action: () -> Void
     var body: some View {
-        ZStack(alignment: .bottom) {
+        ZStack(alignment: .bottomLeading) {
             StyledKFImage(urlString: imageUrl)
             Text(title)
-                .font(.system(size: 20, weight: .semibold))
+                .font(.system(size: 18, weight: .semibold))
                 .foregroundStyle(.white)
-                .padding(.horizontal, 8)
+                //.padding(.horizontal, 8)
                 .padding(.vertical, 4)
                 .background(
                     LinearGradient(
@@ -28,7 +28,7 @@ struct FoodCard: View {
                     )
                 )
                 .cornerRadius(8)
-                .padding(8)
+                //.padding(8)
         }
         .onTapGesture(perform: action)
         .contentShape(Rectangle())

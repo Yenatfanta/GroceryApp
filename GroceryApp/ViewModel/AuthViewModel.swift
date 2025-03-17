@@ -6,18 +6,24 @@
 //
 
 import Foundation
+// MARK: - Auth state enum
 enum AuthState: Equatable {
     case none
     case loading
     case authenticated(User)
     case error(String)
 }
+// MARK: - AuthViewModel
 final class AuthViewModel: ObservableObject {
     @Published var authState: AuthState = .none
     private let authService: FirebaseAuthManagerProtocol
+    // MARK: - Initialization
     init(authService: FirebaseAuthManagerProtocol = FirebaseAuthManager.shared) {
         self.authService = authService
     }
+}
+// MARK: - Authentication methods
+extension AuthViewModel {
     func signIn(email: String, password: String) {
         authService
             .signIn(email: email, password: password) { [weak self] result in
@@ -34,15 +40,13 @@ final class AuthViewModel: ObservableObject {
                 }
             }
     }
+    // MARK: - helper method
     private func handleAuthResult(_ result: Result<User, Error>) {
         switch result {
         case .success(let user):
-            print("view model use: \(user)")
-            
             authState = .authenticated(user)
         case .failure(let error):
             authState = .error(error.localizedDescription)
         }
     }
-
 }

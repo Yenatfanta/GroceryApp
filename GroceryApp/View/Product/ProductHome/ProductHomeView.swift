@@ -9,18 +9,19 @@ import SwiftUI
 
 struct ProductHomeView: View {
     @StateObject var viewModel = CategoryViewModel()
-    let columns = [GridItem(.flexible()), GridItem(.flexible())]
+     let columns = [GridItem(.flexible()), GridItem(.flexible())]
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("Good Morning")
+                        Text(viewModel.greeting)
                             .font(.subheadline)
                             .foregroundStyle(.gray)
                         Text("Mohammed")
-                            .font(.title)
+                            .font(.title2)
                             .fontWeight(.bold)
+                            .foregroundStyle(.orange)
                     }
                     Spacer()
                     Image(systemName: "bell.fill")

@@ -14,6 +14,7 @@ final class FavoritesViewModel: ObservableObject {
     }
     func toggleFavorite(recipe: RecipeDetail) {
         favoritesManager.toggleFavorite(recipe: recipe)
+        objectWillChange.send()
     }
     func isFavorite(_ id: String) -> Bool {
         favoritesManager.isFavorite(id)

@@ -20,7 +20,7 @@ final class RecipeCardViewTest: XCTestCase {
     func test_recipe_detail_view_scrollview_did_appear() {
         app.buttons["Next"].tap()
         app.buttons["Login"].tap()
-        app.buttons["SIGN IN"].tap()
+        app.buttons["LOG IN"].tap()
         app.buttons["Category"].tap()
 
         let element = app.scrollViews.children(matching: .other).element(boundBy: 0).children(

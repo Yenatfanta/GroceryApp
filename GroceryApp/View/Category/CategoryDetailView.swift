@@ -17,7 +17,7 @@ struct CategoryDetailView: View {
     }
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
     var body: some View {
-        TwoColumnGrid(title: "Meals") {
+        TwoColumnGrid(title: selectedMeal) {
             ViewStateContainer(viewState: viewModel.viewState) { meals in
                 ForEach(meals) { meal in
                     FoodCard(
