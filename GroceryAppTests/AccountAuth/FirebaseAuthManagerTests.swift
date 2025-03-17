@@ -24,7 +24,13 @@ final class FirebaseAuthManagerTests: XCTestCase {
         let password = "password123"
         var result: Result<User, Error>?
         // When
-        mockAuthService.createAccount(email: email, password: password) { response in
+        mockAuthService
+            .createAccount(
+                email: email,
+                password: password,
+                firstName: "",
+                lastName: ""
+            ) { response in
             result = response
         }
         mockAuthService.completeAccountCreationWithSuccess()
@@ -45,7 +51,12 @@ final class FirebaseAuthManagerTests: XCTestCase {
         let expectedError = TestError(message: "Test error")
         // When
         mockAuthService
-            .createAccount(email: email, password: password) { response in
+            .createAccount(
+                email: email,
+                password: password,
+                firstName: "",
+                lastName: ""
+            ) { response in
                 result = response
             }
         mockAuthService.completeAccountCreationWithError(expectedError)

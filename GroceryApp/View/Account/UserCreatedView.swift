@@ -9,6 +9,7 @@ import SwiftUI
 struct UserCreatedView: View {
     @Binding var userCreatedSuccessfully: Bool
     @Binding var user: User?
+    @State var isActive = false
     @EnvironmentObject var coordinator: Coordinator
     var body: some View {
         ZStack {
@@ -35,22 +36,7 @@ struct UserCreatedView: View {
                     .font(.body)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-                Button {
-                    withAnimation {
-                        userCreatedSuccessfully = false
-                        coordinator.navigate(to: Destination.loginPage)
-                    }
-                } label: {
-                    Text("Sign In")
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .frame(width: 200, height: 50)
-                        .background(Color.orange)
-                        .cornerRadius(25)
-                        .shadow(color: .black.opacity(0.1), radius: 4)
-                }
-                .padding(.top, 8)
+                    .padding(.horizontal)        
             }
             .padding(32)
             .background(
@@ -63,7 +49,20 @@ struct UserCreatedView: View {
         .edgesIgnoringSafeArea(.bottom)
         .overlay {
             if userCreatedSuccessfully {
-                ConfettiViewWrapper()
+                if isActive {
+                    VStack {
+                    }
+                    .onAppear {
+                        coordinator.navigate(to: Destination.productTab)
+                    }
+                } else {
+                    ConfettiViewWrapper()
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                isActive = true
+                            }
+                        }
+                }
             }
         }
     }

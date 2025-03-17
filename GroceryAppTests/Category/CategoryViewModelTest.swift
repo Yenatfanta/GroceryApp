@@ -53,5 +53,26 @@ final class CategoryViewModelTest: XCTestCase {
             XCTFail("expected loaded case with categories")
         }
     }
+    func test_update_greeting() {
+        // test morning
+        // when
+         viewModel.getGreeting(for: 5)
+        XCTAssertEqual(viewModel.greeting, "Good Morning")
+        viewModel.getGreeting(for: 11)
+       XCTAssertEqual(viewModel.greeting, "Good Morning")
+        // test afternoon
+        // when
+        viewModel.getGreeting(for: 12)
+       XCTAssertEqual(viewModel.greeting, "Good Afternoon")
+       viewModel.getGreeting(for: 16)
+      XCTAssertEqual(viewModel.greeting, "Good Afternoon")
+        viewModel.getGreeting(for: 17)
+       XCTAssertEqual(viewModel.greeting, "Good Evening")
+       viewModel.getGreeting(for: 20)
+      XCTAssertEqual(viewModel.greeting, "Good Evening")
+        viewModel.getGreeting(for: 21)
+       XCTAssertEqual(viewModel.greeting, "Good Night")
+      
+    }
 }
 //swiftlint:enable all

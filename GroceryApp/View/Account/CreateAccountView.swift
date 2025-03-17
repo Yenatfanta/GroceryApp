@@ -27,10 +27,9 @@ struct CreateAccountView: View {
         case firstName, lastName, email, password, confirmPassword
     }
     var body: some View {
-//        Text("Creaye account")
         ScrollView {
             VStack(spacing: 0) {
-                Image("veggies")
+                Image("meal")
                     .resizable()
                     .scaledToFill()
                     .frame(height: 200)
@@ -132,7 +131,7 @@ struct CreateAccountView: View {
                                 )
                         },
                         isLoading: isLoading)
-                    .padding(.top, 20)
+                    .padding(.top, 10)
                     .accessibilityIdentifier(
                         CreateAccountId.createAccountButton
                     )
@@ -164,7 +163,6 @@ struct CreateAccountView: View {
                 isLoading = false
                 userCreatedSuccessfully = true
                 user = userCreated
-                print("view user \(user)")
             case .none:
                 isLoading = false
             case .loading:
@@ -174,6 +172,7 @@ struct CreateAccountView: View {
                 errorMessage = error
             }
         }
+        .background(Color(.systemBackground))
         .overlay(
             userCreatedSuccessfully ?
             UserCreatedView(userCreatedSuccessfully: $userCreatedSuccessfully, user: $user)

@@ -10,6 +10,8 @@ import Kingfisher
 struct RecipeCard: View {
     var recipe: RecipeDetail
     @State private var selectedTab = 0
+    @State var playVideo: Bool = false
+    @EnvironmentObject var coordinator: Coordinator
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
@@ -17,7 +19,7 @@ struct RecipeCard: View {
                     KFImage(URL(string: recipe.thumbnail))
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(height: 250)
+                        .frame(height: 400)
                         .cornerRadius(10)
                         .accessibilityIdentifier("recipeImage")
                     LinearGradient(
@@ -49,18 +51,33 @@ struct RecipeCard: View {
                 HStack(spacing: 20) {
                     FavoriteButton(recipe: recipe)
                     Spacer()
-                    if let youtubeURL = recipe.youtube, let url = URL(string: youtubeURL) {
-                        Link(destination: url ) {
-                            Label("Watch", systemImage: "play.circle.fill")
-                                .font(.subheadline.bold())
-                                .foregroundStyle(.white)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 10)
-                                .background(Color.red)
-                                .clipShape(Capsule())
+                    Button {
+                        if let youtubeURL = recipe.youtube, let url = URL(string: youtubeURL) {
+                            print(youtubeURL)
+                            coordinator.navigate(to: Destination.videoPlayer(url))
                         }
-                        .accessibilityIdentifier("youtubeLink")
+                    } label: {
+                        Label("Watch", systemImage: "play.circle.fill")
+                            .font(.subheadline.bold())
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 10)
+                            .background(Color.red)
+                            .clipShape(Capsule())
+
                     }
+//                    if let youtubeURL = recipe.youtube, let url = URL(string: youtubeURL) {
+//                        Link(destination: url ) {
+//                            Label("Watch", systemImage: "play.circle.fill")
+//                                .font(.subheadline.bold())
+//                                .foregroundStyle(.white)
+//                                .padding(.horizontal, 16)
+//                                .padding(.vertical, 10)
+//                                .background(Color.red)
+//                                .clipShape(Capsule())
+//                        }
+//                        .accessibilityIdentifier("youtubeLink")
+//                    }
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 12)

@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum Tab {
-    case home, category, favorite, profile
+    case home, category, favorite, profile, cart
 }
 struct CustomTabBarView: View {
     @EnvironmentObject var coordinator: Coordinator
@@ -26,6 +26,8 @@ struct CustomTabBarView: View {
                         .environmentObject(coordinator)
                 case .profile:
                     ProfileView()
+                case .cart:
+                    CartView()
                 }
                 Spacer()
             }
@@ -36,10 +38,11 @@ struct CustomTabBarView: View {
                     TabBarButton(tab: .home, selectedTab: $selectedTab)
                     TabBarButton(tab: .category, selectedTab: $selectedTab)
                     TabBarButton(tab: .favorite, selectedTab: $selectedTab)
+                    TabBarButton(tab: .cart, selectedTab: $selectedTab)
                     TabBarButton(tab: .profile, selectedTab: $selectedTab)
                 }
                 .frame(height: 60)
-                .background(Color.brown.shadow(radius: 10))
+                .background(Color.brown.opacity(0.7).shadow(radius: 10))
                 .cornerRadius(12)
 
             }

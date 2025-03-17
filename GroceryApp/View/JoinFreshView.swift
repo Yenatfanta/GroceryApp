@@ -65,7 +65,7 @@ struct JoinFreshView: View {
             .navigationBarBackButtonHidden(true)
         }
         .padding(.bottom, 40)
-
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 

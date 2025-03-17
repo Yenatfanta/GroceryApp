@@ -19,6 +19,7 @@ enum Destination: Hashable, DestinationProtocol {
     case detailView(String)
     case recipeDetailView(String)
     case favorite
+    case videoPlayer(URL)
     func makeView() -> AnyView {
         switch self {
         case .welcomePage:
@@ -37,6 +38,18 @@ enum Destination: Hashable, DestinationProtocol {
             return AnyView(RecipeDetailView(mealId: mealId))
         case .favorite:
             return AnyView(FavoritesView())
+        case .videoPlayer(let url):
+            return AnyView(YoutubeView(url: url))
+        }
+    }
+}
+
+struct YoutubeView: View {
+    var url: URL
+    var body: some View {
+        VStack {
+            VideoPlayerWrapper(videoURL: url)
+                .navigationBarBackButtonHidden()
         }
     }
 }

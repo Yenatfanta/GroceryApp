@@ -27,10 +27,11 @@ struct TabBarButton: View {
     }
     private var tabIcon: String {
         switch tab {
-        case .category: return "arrow.right.arrow.left"
+        case .category: return "square.grid.2x2.fill"
         case .home: return "house.fill"
         case .profile: return "person.fill"
-        case .favorite: return "heart"
+        case .favorite: return "heart.fill"
+        case .cart: return "cart.fill"
         }
     }
     private var title: String {
@@ -39,6 +40,7 @@ struct TabBarButton: View {
         case .home: return "Home"
         case .profile: return "Profile"
         case .favorite: return "Favorite"
+        case .cart: return "Cart"
         }
     }
 }

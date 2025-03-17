@@ -37,6 +37,7 @@ struct RecipeDetailView: View {
             )
         }
         .navigationBarTitleDisplayMode(.inline)
+        .background(Color(.systemBackground))
         .task {
             await viewModel.fetchData()
         }

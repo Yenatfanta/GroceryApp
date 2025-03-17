@@ -22,7 +22,7 @@ final class MockAuthService: FirebaseAuthManagerProtocol {
     var passwordPassed: String?
     var completionToReturn: ((Result<User, Error>) -> Void)?
     var signOutCompletion: ((Error?) -> Void)?
-    func createAccount(email: String, password: String, completion: @escaping (Result<User, Error>) -> Void) {
+    func createAccount(email: String, password: String, firstName: String, lastName: String, completion: @escaping (Result<User, Error>) -> Void) {
         createAccountCalled = true
         emailPassed = email
         passwordPassed = password
