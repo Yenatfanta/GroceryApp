@@ -11,7 +11,7 @@ final class CategoryViewModel: BaseViewModel<CategoryResponse, [MealCategory]> {
     init(networkManager: NetworkManagerProtocol = NetworkManager.shared) {
         super.init(networkManager: networkManager,
                    urlProvider: {EndPoint.categories},
-                   transform: {$0.categories ?? []})
+                   transform: {$0.categories })
         updateGreeting()
     }
 }

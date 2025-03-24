@@ -24,12 +24,14 @@ final class AuthViewModel: ObservableObject {
 }
 // MARK: - Authentication methods
 extension AuthViewModel {
+    // MARK: - sign in
     func signIn(email: String, password: String) {
         authService
             .signIn(email: email, password: password) { [weak self] result in
                 self?.handleAuthResult(result)
             }
     }
+    // MARK: - sign out
     func signOut() {
         authService
             .signOut {[weak self] error in
@@ -40,10 +42,20 @@ extension AuthViewModel {
                 }
             }
     }
+    // MARK: - reset password
+    func resetPassword(email: String) {
+        authService.resetPassword(email: email) { [weak self] error in
+            if let error = error {
+                self?.authState =
+                    .error("\(error.localizedDescription) email not found")
+            }
+        }
+    }
     // MARK: - helper method
     private func handleAuthResult(_ result: Result<User, Error>) {
         switch result {
         case .success(let user):
+            print("logged in: \(user)")
             authState = .authenticated(user)
         case .failure(let error):
             authState = .error(error.localizedDescription)

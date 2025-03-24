@@ -11,7 +11,7 @@ class BaseViewModel<T: Codable, U>: ObservableObject {
     @Published var viewState: ViewState<U> = .none
     // MARK: - Dependency injection
     private let networkManager: NetworkManagerProtocol
-    // MARK: -  properties
+    // MARK: - properties
     private let urlProvider: () -> String
     private let transform: (T) -> U
     private var testData: U?
@@ -22,9 +22,7 @@ class BaseViewModel<T: Codable, U>: ObservableObject {
         self.urlProvider = urlProvider
         self.transform = transform
     }
-    deinit {
-        
-    }
+    deinit {}
 }
 // MARK: - Fetch Logic
 extension BaseViewModel {

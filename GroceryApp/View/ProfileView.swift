@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @EnvironmentObject var appTheme: AppTheme
     var body: some View {
-        Text("Profile view")
+        ZStack {
+//            appTheme.backgroundColor.ignoresSafeArea()
+            Text("Profile view")
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(appTheme.backgroundColor)
     }
 }
 
 #Preview {
     ProfileView()
+        .environmentObject(AppTheme())
 }

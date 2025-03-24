@@ -9,6 +9,7 @@ import SwiftUI
 import Kingfisher
 struct CategoryDetailView: View {
     @EnvironmentObject var coordinator: Coordinator
+    @EnvironmentObject var appTheme: AppTheme
     @State var selectedMeal: String
     @StateObject var viewModel: CategoryDetailViewModel
     init(selectedMeal: String) {
@@ -37,5 +38,6 @@ struct CategoryDetailView: View {
         .task {
             await viewModel.fetchData()
         }
+        .background(appTheme.backgroundColor)
     }
 }

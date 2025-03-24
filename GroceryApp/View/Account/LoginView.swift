@@ -16,6 +16,10 @@ struct LoginView: View {
     @FocusState private var focusedField: Field?
     @EnvironmentObject var coordinator: Coordinator
     @StateObject var viewModel = AuthViewModel()
+    @EnvironmentObject var appTheme: AppTheme
+    @State var loginSuccessful: Bool = false
+    @EnvironmentObject var userViewModel: UserViewModel
+    @State private var showResetPassword: Bool = false
     enum Field: Hashable {
         case email, password
     }
@@ -46,7 +50,7 @@ struct LoginView: View {
                     field: .password
                 )
                 Button {
-                     
+                    showResetPassword = true
                 } label: {
                     Text("Forgot Password?")
                         .font(.footnote)
@@ -72,9 +76,20 @@ struct LoginView: View {
             }
             .padding(.horizontal, 24)
             .padding(.top, 24)
-            .background(Color.white)
             .frame(maxHeight: .infinity)
         }
+        .onReceive(viewModel.$authState) { newState in
+            switch newState {
+            case .authenticated(let user):
+                loginSuccessful = true
+               
+            case .error(let error):
+                errorMessage = error
+            default:
+                print("login not successful")
+            }
+        }
+        .background(appTheme.backgroundColor)
         .navigationBarBackButtonHidden(true)
         .edgesIgnoringSafeArea(.all)
         .toolbar {
@@ -82,12 +97,21 @@ struct LoginView: View {
                 focusedField = nil
             }
         }
+        .overlay(
+            showResetPassword ? ResetPasswordView(viewModel: viewModel)
+            : nil
+        )
     }
     private func validateAndSignIn() {
-        coordinator.navigate(to: Destination.productTab)
+        viewModel.signIn(email: email, password: password)
+        if case .authenticated(let user) = viewModel.authState {
+            coordinator.navigate(to: Destination.productTab)
+        }
     }
 }
 #Preview {
     LoginView()
         .environmentObject(Coordinator())
+        .environmentObject(AppTheme())
+        .environmentObject(UserViewModel())
 }

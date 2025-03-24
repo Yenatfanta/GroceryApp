@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct CartView: View {
+    @EnvironmentObject var appTheme: AppTheme
     var body: some View {
-        Text("Here are your cart!")
+        ZStack {
+            appTheme.backgroundColor.ignoresSafeArea()
+            Text("Here are your cart!")
+        }
     }
 }
 

@@ -6,7 +6,7 @@
 //
 
 import XCTest
-// swiftlint:disable trailing_whitespace line_length
+// swiftlint:disable trailing_whitespace
 final class CreateAccountViewUITest: XCTestCase {
     let app = XCUIApplication()
     override func setUpWithError() throws {

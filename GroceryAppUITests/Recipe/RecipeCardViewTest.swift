@@ -6,7 +6,7 @@
 //
 
 import XCTest
-//swiftlint:disable all
+// swiftlint:disable all
 final class RecipeCardViewTest: XCTestCase {
     let app = XCUIApplication()
     override func setUpWithError() throws {

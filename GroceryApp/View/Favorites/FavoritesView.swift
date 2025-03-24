@@ -10,9 +10,10 @@ import SwiftUI
 struct FavoritesView: View {
     @EnvironmentObject var coordinator: Coordinator
     @StateObject var viewModel = FavoritesViewModel()
+    @State var favoriteRecipes: [RecipeDetail] = []
     var body: some View {
         TwoColumnGrid(title: "Favorites") {
-            if viewModel.getAllFavorites().isEmpty {
+            if favoriteRecipes.isEmpty {
                 VStack(spacing: 20) {
                     Image(systemName: "heart.slash")
                         .font(.system(size: 50))
@@ -28,7 +29,7 @@ struct FavoritesView: View {
                 }
                 .frame(maxWidth: .infinity, minHeight: 300)
             } else {
-                ForEach(viewModel.getAllFavorites()) { recipe in
+                ForEach(favoriteRecipes) { recipe in
                     FoodCard(
                         title: recipe.name,
                         imageUrl: recipe.thumbnail,
@@ -44,6 +45,14 @@ struct FavoritesView: View {
                         alignment: .topTrailing
                     )
                 }
+            }
+        }
+        .task {
+            favoriteRecipes = await viewModel.getAllFavorites()
+        }
+        .onChange(of: viewModel.favorites) {
+            Task {
+                favoriteRecipes = await viewModel.getAllFavorites()
             }
         }
     }

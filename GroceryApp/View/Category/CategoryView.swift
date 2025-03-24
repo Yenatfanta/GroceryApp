@@ -8,6 +8,7 @@
 import SwiftUI
 struct CategoryView: View {
     @StateObject var viewModel = CategoryViewModel()
+    @EnvironmentObject var appTheme: AppTheme
     @EnvironmentObject var coordinator: Coordinator
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
     var body: some View {
@@ -27,6 +28,7 @@ struct CategoryView: View {
         .task {
             await viewModel.fetchData()
         }
+        .background(appTheme.backgroundColor)
     }
 }
 #Preview {

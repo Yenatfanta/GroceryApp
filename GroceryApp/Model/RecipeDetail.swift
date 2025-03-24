@@ -6,7 +6,7 @@
 //
 
 import Foundation
-struct RecipeDetail: Codable, Identifiable {
+struct RecipeDetail: Codable, Identifiable, Equatable {
     let id: String
     let name: String
     let origin: String
@@ -59,6 +59,9 @@ struct RecipeDetail: Codable, Identifiable {
             index += 1
         }
         ingredients = ingredientArray
+    }
+    static func == (lhs: RecipeDetail, rhs: RecipeDetail) -> Bool {
+        return lhs.id == rhs.id
     }
 }
 struct DynamicCodingKeys: CodingKey {
