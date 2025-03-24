@@ -1,3 +1,4 @@
+
 # GroceryApp
 
 GroceryApp is a Swift-based iOS application that helps users efficiently manage their grocery lists and favorite recipes. It follows the **MVVMC (Model-View-ViewModel-Coordinator) architecture**, ensuring modularity, scalability, and maintainability. The project is structured to follow **SOLID principles**, making the codebase clean, reusable, and easy to test.
