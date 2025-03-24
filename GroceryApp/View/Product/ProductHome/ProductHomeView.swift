@@ -9,26 +9,28 @@ import SwiftUI
 
 struct ProductHomeView: View {
     @StateObject var viewModel = CategoryViewModel()
-     let columns = [GridItem(.flexible()), GridItem(.flexible())]
+    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var appTheme: AppTheme
+    let columns = [GridItem(.flexible()), GridItem(.flexible())]
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 15) {
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(viewModel.greeting)
-                            .font(.subheadline)
-                            .foregroundStyle(.gray)
-                        Text("Mohammed")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.orange)
-                    }
-                    Spacer()
-                    Image(systemName: "bell.fill")
+        VStack(alignment: .leading, spacing: 15) {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(viewModel.greeting)
+                        .font(.subheadline)
+                        .foregroundStyle(.gray)
+                    Text(userViewModel.currentUser?.firstName ?? "Unknown")
+                        .font(.title2)
+                        .fontWeight(.bold)
                         .foregroundStyle(.orange)
-                        .padding()
                 }
-                .padding(.horizontal)
+                Spacer()
+                Image(systemName: "bell.fill")
+                    .foregroundStyle(.orange)
+                    .padding()
+            }
+            .padding(.horizontal)
+            ScrollView {
                 HStack {
                     FeaturedCardView(
                         title: "Recommended Recipe Today",
@@ -58,6 +60,7 @@ struct ProductHomeView: View {
                 await viewModel.fetchData()
             }
         }
+        .background(appTheme.backgroundColor)
     }
 }
 #Preview {

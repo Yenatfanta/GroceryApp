@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ViewStateContainer<ViewData, Content: View, LoadingView: View, ErrorView: View> : View {
+struct ViewStateContainer<ViewData, Content: View, LoadingView: View, ErrorView: View>: View {
     let viewState: ViewState<ViewData>
     let content: (ViewData) -> Content
     let loadingView: LoadingView

@@ -18,11 +18,12 @@ struct CreateAccountView: View {
     @State private var userCreatedSuccessfully = false
     @State private var errorMessage: String?
     @State private var isLoading = false
-    @State private var user: User?
     @FocusState private var focusedField: Field?
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var coordinator: Coordinator
+    @EnvironmentObject var userViewModel: UserViewModel
     @StateObject var viewModel = CreateAccountViewModel()
+    @EnvironmentObject var appTheme: AppTheme
     enum Field: Hashable {
         case firstName, lastName, email, password, confirmPassword
     }
@@ -34,7 +35,7 @@ struct CreateAccountView: View {
                     .scaledToFill()
                     .frame(height: 200)
                     .clipped()
-                VStack(alignment: .leading, spacing: 24) {
+                VStack(alignment: .leading, spacing: 15) {
                     Text("CREATE YOUR ACCOUNT")
                         .font(.title)
                         .fontWeight(.bold)
@@ -113,74 +114,72 @@ struct CreateAccountView: View {
                             )
                     }
                     Group {
-                    Text("By tapping Create Account, you agree to our [Terms of Service](terms) and [Privacy Policy](privacy)")
-                        .font(.footnote)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .frame(maxWidth: .infinity)
-                        .padding(.top, 16)
-                    AuthButton(
-                        title: "Create Account",
-                        action: {
-                            viewModel
-                                .createAccount(
-                                    email: email,
-                                    password: password,
-                                    firstName: firstName,
-                                    lastName: lastName
-                                )
-                        },
-                        isLoading: isLoading)
-                    .padding(.top, 10)
-                    .accessibilityIdentifier(
-                        CreateAccountId.createAccountButton
-                    )
-                }
+                        // swiftlint:disable:next line_length
+                        Text("By tapping Create Account, you agree to our [Terms of Service](terms) and [Privacy Policy](privacy)")
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity)
+                            .padding(.top, 16)
+                        AuthButton(
+                            title: "Create Account",
+                            action: {
+                                viewModel
+                                    .createAccount(
+                                        email: email,
+                                        password: password,
+                                        firstName: firstName,
+                                        lastName: lastName
+                                    )
+                            },
+                            isLoading: isLoading)
+                        .accessibilityIdentifier(
+                            CreateAccountId.createAccountButton
+                        )
+                    }
                     AuthNavigationLink(
                         question: "Already have an account?",
                         linkText: "Sign In",
                         action: { dismiss() }
                     )
                 }
-                .padding(24)
-                .background(Color.white)
-                .cornerRadius(30, corners: [.topLeft, .topRight])
+                .padding(.horizontal, 20)
+                .cornerRadius(30)
             }
         }
-        .edgesIgnoringSafeArea(.top)
-        .background(Color(UIColor.systemBackground))
-        .accessibilityIdentifier(
-            CreateAccountId.createAccountScroll
-        )
-        .toolbar {
-            KeyBoardToolBar {
-                focusedField = nil
+            .edgesIgnoringSafeArea(.top)
+            .accessibilityIdentifier(
+                CreateAccountId.createAccountScroll
+            )
+            .toolbar {
+                KeyBoardToolBar {
+                    focusedField = nil
+                }
             }
-        }
-        .onReceive(viewModel.$authState) { newState in
-            switch newState {
-            case .authenticated(let userCreated):
-                isLoading = false
-                userCreatedSuccessfully = true
-                user = userCreated
-            case .none:
-                isLoading = false
-            case .loading:
-                isLoading = true
-            case .error(let error):
-                isLoading = false
-                errorMessage = error
+            .onReceive(viewModel.$authState) { newState in
+                switch newState {
+                case .authenticated(let userCreated):
+                    isLoading = false
+                    userCreatedSuccessfully = true
+                   
+                case .none:
+                    isLoading = false
+                case .loading:
+                    isLoading = true
+                case .error(let error):
+                    isLoading = false
+                    errorMessage = error
+                }
             }
-        }
-        .background(Color(.systemBackground))
-        .overlay(
-            userCreatedSuccessfully ?
-            UserCreatedView(userCreatedSuccessfully: $userCreatedSuccessfully, user: $user)
-                           .transition(.opacity.combined(with: .scale))
-                           .animation(.spring(), value: userCreatedSuccessfully)
-                           .accessibilityIdentifier(CreateAccountId.userCreatedSuccessfully)
-            : nil
-        )
+            .background(appTheme.backgroundColor)
+            .overlay(
+                userCreatedSuccessfully ?
+                UserCreatedView(userCreatedSuccessfully: $userCreatedSuccessfully)
+                               .transition(.opacity.combined(with: .scale))
+                               .animation(.spring(), value: userCreatedSuccessfully)
+                               .accessibilityIdentifier(CreateAccountId.userCreatedSuccessfully)
+                : nil
+            )
     }
 }
 #Preview {

@@ -9,7 +9,7 @@ import Foundation
 
 final class CategoryDetailViewModel: BaseViewModel<MealDetailResponse, [MealDetail]> {
     let mealName: String
-    // MARK: -  initialization
+    // MARK: - initialization
     init(networkManager: NetworkManagerProtocol = NetworkManager.shared, mealName: String) {
         self.mealName = mealName
         EndPoint.categoryName = mealName

@@ -14,6 +14,11 @@ struct GroceryAppApp: App {
         WindowGroup {
                 WelcomeView()
                 .environmentObject(Coordinator())
+                .environmentObject(UserViewModel())
+                .environmentObject(AppTheme())
         }
     }
+}
+class AppTheme: ObservableObject {
+    @Published var backgroundColor: Color = Color.orange.opacity(0.1)
 }

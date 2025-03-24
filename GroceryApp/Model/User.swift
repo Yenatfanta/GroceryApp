@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import FirebaseAuth
+
 struct User: Codable, Equatable {
     let userId: String
     let firstName: String?

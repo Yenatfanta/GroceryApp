@@ -10,10 +10,10 @@ import FirebaseAuth
 import FirebaseFirestore
 protocol AuthRepositoryProtocol {
     func saveUserDetails(userId: String, firstName: String, lastName: String, email: String)
-    func getAllUsers(completion: @escaping (Result<[User], Error>) -> Void)
+    func getCurrentUser(completion: @escaping (User?) -> Void)
 }
 final class FirebaseAuthRepository: AuthRepositoryProtocol {
-   private init() {}
+    private init() {}
     let database = Firestore.firestore()
     static let shared = FirebaseAuthRepository()
     func saveUserDetails(userId: String, firstName: String, lastName: String, email: String) {
@@ -32,7 +32,24 @@ final class FirebaseAuthRepository: AuthRepositoryProtocol {
                 print("error saving user detail: \(error.localizedDescription)")
             }
     }
-    func getAllUsers(completion: @escaping (Result<[User], any Error>) -> Void) {
-        // TODO: retrieve users
+    func getCurrentUser(completion: @escaping (User?) -> Void) {
+        guard let currentUser = Auth.auth().currentUser else {
+            completion(nil)
+            return
+        }
+        let documentReference = database.collection("users")
+            .document(currentUser.uid)
+        documentReference.getDocument { document, error in
+            if let document = document, document.exists {
+                let data = document.data()
+                let user = User(userId: currentUser.uid,
+                                 firstName: data?["firstName"] as? String,
+                                 lastName: data?["lastName"] as? String,
+                                 email: currentUser.email)
+                completion(user)
+            } else {
+                print("User document not found: \(error?.localizedDescription ?? "unknown error")")
+            }
+        }
     }
 }

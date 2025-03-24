@@ -11,27 +11,40 @@ struct FavoriteButton: View {
     let recipe: RecipeDetail
     @EnvironmentObject var coordinator: Coordinator
     @StateObject var viewModel = FavoritesViewModel()
+    @State var isFavorite: Bool = false
     var body: some View {
         Button {
             withAnimation {
-                viewModel.toggleFavorite(recipe: recipe)
+                isFavorite.toggle()
+                Task {
+                     await viewModel.toggleFavorite(recipe: recipe)
+                    isFavorite = await viewModel.isFavorite(recipe.id)
+                }
             }
         } label: {
             Label(
-                viewModel.isFavorite(recipe.id) ? "Liked" : "Like",
-                systemImage: viewModel.isFavorite(recipe.id) ? "heart.fill" : "heart"
+                isFavorite ? "Liked" : "Like",
+                systemImage: isFavorite ? "heart.fill" : "heart"
             )
             .font(.subheadline.bold())
             .foregroundStyle(
-                viewModel.isFavorite(recipe.id) ? .white : .orange)
+                isFavorite ? .white : .orange)
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
             .background(
-                viewModel.isFavorite(recipe.id) ?
+                isFavorite ?
                             Color.orange :
                             Color.orange.opacity(0.15)
                         )
             .clipShape(Capsule())
+        }
+        .task {
+            isFavorite = await viewModel.isFavorite(recipe.id)
+        }
+        .onChange(of: viewModel.favorites[recipe.id]) {
+            Task {
+                isFavorite = await viewModel.isFavorite(recipe.id)
+            }
         }
     }
 }

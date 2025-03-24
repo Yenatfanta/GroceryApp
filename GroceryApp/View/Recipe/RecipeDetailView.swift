@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecipeDetailView: View {
     @StateObject var viewModel: RecipeDetailViewModel
+    @EnvironmentObject var appTheme: AppTheme
     let mealId: String
     init(mealId: String) {
         self.mealId = mealId
@@ -37,12 +38,13 @@ struct RecipeDetailView: View {
             )
         }
         .navigationBarTitleDisplayMode(.inline)
-        .background(Color(.systemBackground))
         .task {
             await viewModel.fetchData()
         }
+        .background(appTheme.backgroundColor)
     }
 }
 #Preview {
     RecipeDetailView(mealId: "5535")
+        .environmentObject(AppTheme())
 }

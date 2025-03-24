@@ -18,7 +18,6 @@ struct FoodCard: View {
             Text(title)
                 .font(.system(size: 18, weight: .semibold))
                 .foregroundStyle(.white)
-                //.padding(.horizontal, 8)
                 .padding(.vertical, 4)
                 .background(
                     LinearGradient(
@@ -28,7 +27,6 @@ struct FoodCard: View {
                     )
                 )
                 .cornerRadius(8)
-                //.padding(8)
         }
         .onTapGesture(perform: action)
         .contentShape(Rectangle())

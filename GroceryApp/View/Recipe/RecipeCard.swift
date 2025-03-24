@@ -66,18 +66,6 @@ struct RecipeCard: View {
                             .clipShape(Capsule())
 
                     }
-//                    if let youtubeURL = recipe.youtube, let url = URL(string: youtubeURL) {
-//                        Link(destination: url ) {
-//                            Label("Watch", systemImage: "play.circle.fill")
-//                                .font(.subheadline.bold())
-//                                .foregroundStyle(.white)
-//                                .padding(.horizontal, 16)
-//                                .padding(.vertical, 10)
-//                                .background(Color.red)
-//                                .clipShape(Capsule())
-//                        }
-//                        .accessibilityIdentifier("youtubeLink")
-//                    }
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 12)
@@ -97,6 +85,5 @@ struct RecipeCard: View {
         }
         .accessibilityIdentifier("recipeCardScrollView")
         .edgesIgnoringSafeArea(.top)
-        .background(Color(.systemBackground))
     }
 }

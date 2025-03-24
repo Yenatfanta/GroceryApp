@@ -8,7 +8,7 @@
 import SwiftUI
 struct UserCreatedView: View {
     @Binding var userCreatedSuccessfully: Bool
-    @Binding var user: User?
+    @EnvironmentObject var userViewModel: UserViewModel
     @State var isActive = false
     @EnvironmentObject var coordinator: Coordinator
     var body: some View {
@@ -28,7 +28,8 @@ struct UserCreatedView: View {
                     .font(.title2)
                     .bold()
                     .foregroundColor(.primary)
-                Text("\(user?.firstName ?? "unknown") \(user?.lastName ?? "unknown")")
+                // swiftlint:disable:next line_length
+                Text("\(userViewModel.currentUser?.firstName ?? "unknown") \(userViewModel.currentUser?.lastName ?? "unknown")")
                     .font(.subheadline)
                     .bold()
                     .foregroundColor(.primary)
