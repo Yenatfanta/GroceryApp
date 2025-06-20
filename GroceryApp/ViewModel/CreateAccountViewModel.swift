@@ -33,7 +33,6 @@ final class CreateAccountViewModel: ObservableObject {
                             email: user.email ?? "N/A"
                         )
                     self.authState = .authenticated(user)
-//                    print("view model: \(user)")
                 case .failure(let error):
                     self.authState = .error(error.localizedDescription)
                 }

@@ -80,9 +80,9 @@ struct LoginView: View {
         }
         .onReceive(viewModel.$authState) { newState in
             switch newState {
-            case .authenticated(let user):
+            case .authenticated(_):
                 loginSuccessful = true
-               
+                userViewModel.updateUser()
             case .error(let error):
                 errorMessage = error
             default:
@@ -104,7 +104,8 @@ struct LoginView: View {
     }
     private func validateAndSignIn() {
         viewModel.signIn(email: email, password: password)
-        if case .authenticated(let user) = viewModel.authState {
+        if case .authenticated(_) = viewModel.authState {
+            userViewModel.updateUser()
             coordinator.navigate(to: Destination.productTab)
         }
     }

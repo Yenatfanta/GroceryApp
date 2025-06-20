@@ -6,7 +6,7 @@
 //
 
 import XCTest
-// swiftlint:disable trailing_whitespace
+// swiftlint:disable:next trailing_whitespace
 final class CreateAccountViewUITest: XCTestCase {
     let app = XCUIApplication()
     override func setUpWithError() throws {
@@ -36,22 +36,17 @@ final class CreateAccountViewUITest: XCTestCase {
         let passwordField = app.secureTextFields["passwordField"]
         let confirmPassword = app.secureTextFields["confirmPasswordField"]
         let createAccountButton = app.buttons["createAccountButton"]
-        
         firstNameField.tap()
         firstNameField.typeText("John")
-        
         lastNameField.tap()
         lastNameField.typeText("Doe")
-        
         emailField.tap()
         emailField.typeText("john.doe@example.com")
-    
         passwordField.tap()
         passwordField.typeText("Test1234!55")
         confirmPassword.tap()
         confirmPassword.typeText("Test1234!55")
         confirmPassword.swipeUp()
-       
         createAccountButton.tap()
         let successView = app.otherElements["userCreatedSuccessfully"]
         XCTAssertTrue(successView.waitForExistence(timeout: 10))
@@ -83,4 +78,3 @@ final class CreateAccountViewUITest: XCTestCase {
             XCTAssertTrue(errorMessage.waitForExistence(timeout: 3))
         }
 }
-// swiftlint:enable trailing_whitespace line_length

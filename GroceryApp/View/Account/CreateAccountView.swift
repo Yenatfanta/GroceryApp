@@ -158,10 +158,10 @@ struct CreateAccountView: View {
             }
             .onReceive(viewModel.$authState) { newState in
                 switch newState {
-                case .authenticated(let userCreated):
+                case .authenticated(let _):
                     isLoading = false
+                    userViewModel.updateUser()
                     userCreatedSuccessfully = true
-                   
                 case .none:
                     isLoading = false
                 case .loading:
