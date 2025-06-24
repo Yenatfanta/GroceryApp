@@ -9,6 +9,10 @@ import Foundation
 @testable import GroceryApp
 // swiftlint: disable all
 final class MockAuthRepository: AuthRepositoryProtocol {
+    func getCurrentUser(completion: @escaping (User?) -> Void) {
+    //    completion(nil)
+    }
+
     var saveUserDetailsCalled = false
     var userIdPassed: String?
     var firstNamePassed: String?

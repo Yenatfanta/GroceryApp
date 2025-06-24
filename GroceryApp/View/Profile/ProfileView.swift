@@ -10,9 +10,11 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject var appTheme: AppTheme
     var body: some View {
-        ZStack {
+        VStack(spacing: 0) {
 //            appTheme.backgroundColor.ignoresSafeArea()
-            Text("Profile view")
+            ScrollView {
+                ProfileViewHeader()
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(appTheme.backgroundColor)

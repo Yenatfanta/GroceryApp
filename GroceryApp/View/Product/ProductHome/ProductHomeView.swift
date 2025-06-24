@@ -14,6 +14,7 @@ struct ProductHomeView: View {
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
+            SearchBar()
             HStack {
                 VStack(alignment: .leading) {
                     Text(viewModel.greeting)

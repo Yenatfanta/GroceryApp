@@ -13,6 +13,10 @@ struct TestError: Error, LocalizedError {
     var errorDescription: String? { message }
 }
 final class MockAuthService: FirebaseAuthManagerProtocol {
+    func resetPassword(email: String, completion: @escaping ((any Error)?) -> Void) {
+        
+    }
+
     var shouldSucceed = true
     var mockUser  = User(userId: "123", firstName: "Adam", lastName: "Smith", email: "adam@gmail.com")
     var createAccountCalled = false

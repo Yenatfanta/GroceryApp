@@ -8,11 +8,22 @@
 import Foundation
 final class CategoryViewModel: BaseViewModel<CategoryResponse, [MealCategory]> {
     @Published var greeting: String = ""
-    init(networkManager: NetworkManagerProtocol = NetworkManager.shared) {
+    private var storage: DailyMealCategoryManager?
+    init(
+        networkManager: NetworkManagerProtocol = NetworkManager.shared,
+        storage: DailyMealCategoryManager = DailyMealCategoryManager.shared
+    ) {
         super.init(networkManager: networkManager,
                    urlProvider: {EndPoint.categories},
                    transform: {$0.categories })
+        self.storage = storage
         updateGreeting()
+    }
+    override func fetchData() async {
+        await super.fetchData()
+        if case let .loaded(categories) = viewState {
+            storage?.updateDailyCategoryIfNeeded(using: categories)
+        }
     }
 }
  // MARK: - greeting logic
@@ -33,5 +44,4 @@ extension CategoryViewModel {
             greeting = "Good Night"
         }
     }
-
 }

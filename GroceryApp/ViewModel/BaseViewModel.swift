@@ -23,9 +23,7 @@ class BaseViewModel<T: Codable, U>: ObservableObject {
         self.transform = transform
     }
     deinit {}
-}
-// MARK: - Fetch Logic
-extension BaseViewModel {
+    // MARK: - Fetch Logic
     @MainActor
     func fetchData() async {
         if let testData = testData {

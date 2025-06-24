@@ -34,7 +34,7 @@ struct CustomTabBarView: View {
             .edgesIgnoringSafeArea(.bottom)
             VStack {
                 Spacer()
-                HStack {
+                HStack(spacing: 0) {
                     TabBarButton(tab: .home, selectedTab: $selectedTab)
                     TabBarButton(tab: .category, selectedTab: $selectedTab)
                     TabBarButton(tab: .favorite, selectedTab: $selectedTab)
