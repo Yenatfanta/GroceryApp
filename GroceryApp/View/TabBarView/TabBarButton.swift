@@ -11,19 +11,23 @@ struct TabBarButton: View {
     let tab: Tab
     @Binding var selectedTab: Tab
     var body: some View {
-        Button {
-            selectedTab = tab
-        } label: {
-            VStack {
-                Image(systemName: tabIcon)
-                    .font(.system(size: 20))
-                    .foregroundStyle(selectedTab == tab ? .orange : .white)
-                Text(title)
-                    .font(.caption)
-                    .foregroundStyle(selectedTab == tab ? .orange : .white)
+        GeometryReader { geometry in
+            Button {
+                selectedTab = tab
+            } label: {
+                VStack {
+                    Image(systemName: tabIcon)
+                        .font(.system(size: 20))
+                        .foregroundStyle(selectedTab == tab ? .orange : .white)
+                    if geometry.size.width > 100 {
+                        Text(title)
+                            .font(.caption)
+                            .foregroundStyle(selectedTab == tab ? .orange : .white)
+                    }
+                }
             }
-            .padding()
         }
+        .frame(maxWidth: .infinity)
     }
     private var tabIcon: String {
         switch tab {
